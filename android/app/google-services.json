@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "280815593520",
+    "project_id": "enablind-db",
+    "storage_bucket": "enablind-db.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:280815593520:android:d385295c995b32808625f5",
+        "android_client_info": {
+          "package_name": "com.example.login_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "280815593520-24vtvtadam02onnkcql3osl0dvf2bhq7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBz1uXuvPRKqYP9Gg5RjdX_vUJwh3AH1zI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "280815593520-24vtvtadam02onnkcql3osl0dvf2bhq7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
