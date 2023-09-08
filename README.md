@@ -1,6 +1,6 @@
-# login_app
+# enablind v1
 
-A new Flutter project.
+An app that seeks and enables the visually impaired to have equal opportunities
 
 ## Getting Started
 
