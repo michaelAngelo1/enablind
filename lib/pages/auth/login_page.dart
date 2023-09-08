@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:login_app/components/my_button.dart';
 import 'package:login_app/components/my_textfield.dart';
 import 'package:login_app/components/square_tile.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:login_app/db_instance.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
@@ -13,7 +13,7 @@ class LoginPage extends StatelessWidget {
 
   // sign user in method
   void signUserIn() async {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
+    await auth.signInWithEmailAndPassword(
       email: emailController.text,
       password: passwordController.text,
     );
