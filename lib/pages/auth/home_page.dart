@@ -125,6 +125,7 @@ class _HomePageState extends State<HomePage> {
               color: Colors.green
             )
           )
+          
         ][currentPageIndex],
 
       // BottomNavBar: Explore, Notifs, Saved, Profile
