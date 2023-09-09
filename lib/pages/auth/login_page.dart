@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:login_app/app_state.dart';
 import 'package:login_app/components/my_button.dart';
 import 'package:login_app/components/my_textfield.dart';
 import 'package:login_app/components/square_tile.dart';
 import 'package:login_app/db_instance.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
@@ -11,16 +14,11 @@ class LoginPage extends StatelessWidget {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  // sign user in method
-  void signUserIn() async {
-    await auth.signInWithEmailAndPassword(
-      email: emailController.text,
-      password: passwordController.text,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
+
+    final appState = Provider.of<AppState>(context);
+    
     return Scaffold(
       backgroundColor: Colors.grey[300],
       body: SafeArea(
@@ -85,7 +83,18 @@ class LoginPage extends StatelessWidget {
 
               // sign in button
               MyButton(
-                onTap: signUserIn,
+                onTap: () async {
+                  await auth.signInWithEmailAndPassword(
+                    email: emailController.text,
+                    password: passwordController.text,
+                  );
+                  auth.authStateChanges().listen((User? user) {
+                    if (user != null) {
+                      String uid = user.uid;
+                      appState.updateUID(uid);
+                    }
+                  });
+                },
               ),
 
               const SizedBox(height: 50),
