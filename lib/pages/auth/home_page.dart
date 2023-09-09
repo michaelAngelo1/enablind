@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:login_app/db_instance.dart';
 import 'package:login_app/pages/jobs/jobcard.dart';
 import 'package:login_app/variables.dart';
+import 'select_page.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({super.key});
@@ -19,17 +20,19 @@ class _HomePageState extends State<HomePage> {
   // user object
   final user = auth.currentUser!;
 
-  void signUserOut() {
-    auth.signOut();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         actions: [
           IconButton(
-            onPressed: signUserOut,
+            onPressed: () {
+              auth.signOut();
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const SelectPage()), // Replace with your JobseekerPage
+              );
+            },
             icon: const Icon(Icons.logout),
           ),
         ],

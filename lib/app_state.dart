@@ -13,4 +13,9 @@ class AppState extends ChangeNotifier {
     currentUID = uid;
     print(currentUID);
   }
+
+  setIsCorporate (bool status) {
+    isCorporate = status;
+    print(isCorporate);
+  }
 }
