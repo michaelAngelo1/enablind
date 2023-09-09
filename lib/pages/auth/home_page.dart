@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
       body: <Widget>[
           Container(
             decoration: const BoxDecoration(
-              color: Color(0xffb0f0c07),
+              color: mainBgColor,
             ),
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
@@ -62,7 +62,7 @@ class _HomePageState extends State<HomePage> {
                       Text(
                         "Popular Jobs",
                         style: GoogleFonts.plusJakartaSans(
-                          fontSize: 16.0,
+                          fontSize: 18,
                           fontWeight: FontWeight.w600,
                           color: titleContentColor,
                         )
@@ -77,7 +77,7 @@ class _HomePageState extends State<HomePage> {
                       Text(
                         "See all",
                         style: GoogleFonts.plusJakartaSans(
-                          fontSize: 14.0,
+                          fontSize: 16.0,
                           fontWeight: FontWeight.w600,
                           color: Color(0xffb404040),
                         )
@@ -129,41 +129,65 @@ class _HomePageState extends State<HomePage> {
         ][currentPageIndex],
 
       // BottomNavBar: Explore, Notifs, Saved, Profile
-      bottomNavigationBar: NavigationBar(
+      bottomNavigationBar:  NavigationBar(
         onDestinationSelected: (int index) {
           setState(() {
             currentPageIndex = index;
           });
         },
-        indicatorColor: accentColor,
+        backgroundColor: bottomNavBarColor,
+        indicatorColor: bottomNavBarColor,
         selectedIndex: currentPageIndex,
         destinations: const <Widget>[
-
           // Explore Jobs
           NavigationDestination(
-            selectedIcon: Icon(Icons.work),
-            icon: Icon(Icons.work_outline),
+            selectedIcon: Icon(
+              Icons.work,
+              color: accentColor
+            ),
+            icon: Icon(
+              Icons.work_outline,
+              color: disabledNavbar
+            ),
             label: 'Explore'
           ),
 
           // Notifs
           NavigationDestination(
-            selectedIcon: Icon(Icons.notifications),
-            icon: Icon(Icons.notifications_outlined),
+            selectedIcon: Icon(
+              Icons.notifications,
+              color: accentColor
+            ),
+            icon: Icon(
+              Icons.notifications_outlined,
+              color: disabledNavbar
+            ),
             label: 'Update'
           ),
 
           // Saved Jobs
           NavigationDestination(
-            selectedIcon: Icon(Icons.bookmark),
-            icon: Icon(Icons.bookmark_border),
-            label: 'Saved'
+            selectedIcon: Icon(
+              Icons.bookmark,
+              color: accentColor
+            ),
+            icon: Icon(Icons.bookmark_border,
+              color: disabledNavbar
+            ),
+            label: 'Saved',
+  
           ),
 
           // Profile
           NavigationDestination(
-            selectedIcon: Icon(Icons.person),
-            icon: Icon(Icons.person_outline),
+            selectedIcon: Icon(
+              Icons.person,
+              color: accentColor
+            ),
+            icon: Icon(
+              Icons.person_outline,
+              color: disabledNavbar
+            ),
             label: 'Profile'
           ),
         ]

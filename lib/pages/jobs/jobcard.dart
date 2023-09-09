@@ -10,8 +10,8 @@ class JobCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 150,
-      width: 500,
+      height: 165,
+      width: 400,
       decoration: BoxDecoration(
         color: cardJobListColor,
         borderRadius: BorderRadius.all(Radius.circular(16)),
@@ -28,8 +28,8 @@ class JobCard extends StatelessWidget {
               children: [
                 // Company Logo
                 Container(
-                  width: 40,
-                  height: 40,
+                  width: 50,
+                  height: 50,
                   decoration: const BoxDecoration(
                     color: Colors.black,
                     borderRadius: const BorderRadius.all(Radius.circular(10)),
@@ -44,21 +44,25 @@ class JobCard extends StatelessWidget {
                     // Company
                     Row(
                       children: [
-                        Text(
-                          "Altasian",
-                          style: GoogleFonts.plusJakartaSans(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                            color: titleContentColor,
-                          )
+                        SizedBox(
+                          width: 180,
+                          child: Text(
+                            "Altasian",
+                            style: GoogleFonts.plusJakartaSans(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: titleContentColor,
+                            )
+                          ),
                         ),
 
                         // Save Job List
                         Container(
-                          margin: const EdgeInsets.only(left: 140.0),
+                          margin: const EdgeInsets.only(left: 80.0),
                           width: 2,
                           child: Icon(
                             Icons.bookmark_border_outlined,
+                            size: 28,
                             color: titleContentColor,
                           ),
                         )
@@ -68,13 +72,16 @@ class JobCard extends StatelessWidget {
                     // Role Text
                     Row(
                       children: [
-                        Text(
-                          "Product Designer",
-                          style: GoogleFonts.plusJakartaSans(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: titleContentColor,
-                          )
+                        SizedBox(
+                          width: 195,
+                          child: Text(
+                            "Programmer",
+                            style: GoogleFonts.plusJakartaSans(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: titleContentColor,
+                            )
+                          ),
                         ),
                         const SizedBox(
                           width: 70,
@@ -87,7 +94,7 @@ class JobCard extends StatelessWidget {
             ),
 
             // Location and Type of Work, Mode of Work
-            const SizedBox(height: 8.0),
+            const SizedBox(height: 12.0),
             Row(
               children: <Widget>[
                 Icon(
@@ -99,17 +106,17 @@ class JobCard extends StatelessWidget {
                   "Remote",
                   style: GoogleFonts.plusJakartaSans(
                     fontWeight: FontWeight.w500,
-                    fontSize: 12.0,
+                    fontSize: 14.0,
                     color: titleContentColor,
                   )
                 )
               ]
             ),
-            const SizedBox(height: 8.0),
+            const SizedBox(height: 16.0),
             Row(
               children: <Widget>[
                 Container(
-                  height: 26,
+                  height: 30,
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: const BoxDecoration(
                     color: Colors.black,
@@ -119,14 +126,14 @@ class JobCard extends StatelessWidget {
                     "Freelance",
                     style: GoogleFonts.plusJakartaSans(
                       fontWeight: FontWeight.w500,
-                      fontSize: 12,
+                      fontSize: 14,
                       color: accentColor
                     )
                   )
                 ),
                 const SizedBox(width: 5),
                 Container(
-                  height: 26,
+                  height: 30,
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: const BoxDecoration(
                     color: Colors.black,
@@ -136,7 +143,7 @@ class JobCard extends StatelessWidget {
                     "Full-time",
                     style: GoogleFonts.plusJakartaSans(
                       fontWeight: FontWeight.w500,
-                      fontSize: 12,
+                      fontSize: 14,
                       color: accentColor
                     )
                   )
