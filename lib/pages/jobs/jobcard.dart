@@ -21,10 +21,12 @@ class JobCard extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
 
             // Card Job List Content
             Row(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 // Company Logo
                 Container(
@@ -39,50 +41,42 @@ class JobCard extends StatelessWidget {
 
                 // Column for Company & Role
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    
-                    // Company
-                    Row(
-                      children: [
-                        Text(
-                          "Altasian",
-                          style: GoogleFonts.plusJakartaSans(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                            color: titleContentColor,
-                          )
-                        ),
-
-                        // Save Job List
-                        Container(
-                          margin: const EdgeInsets.only(left: 140.0),
-                          width: 2,
-                          child: Icon(
-                            Icons.bookmark_border_outlined,
-                            color: titleContentColor,
-                          ),
-                        )
-                      ],
+                    Text(
+                      "Altasian",
+                      style: GoogleFonts.plusJakartaSans(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: titleContentColor,
+                      )
                     ),
-
                     // Role Text
-                    Row(
-                      children: [
-                        Text(
-                          "Product Designer",
-                          style: GoogleFonts.plusJakartaSans(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: titleContentColor,
-                          )
-                        ),
-                        const SizedBox(
-                          width: 70,
-                        )
-                      ],
+                    Text(
+                      "Product Designer",
+                      style: GoogleFonts.plusJakartaSans(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: titleContentColor,
+                      )
                     ),
                   ],
                 ),
+                // Save Job List TODO: Change to iconButton
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Container(
+                        // margin: const EdgeInsets.only(left: 140.0),
+                        child: Icon(
+                          Icons.bookmark_border_outlined,
+                          color: titleContentColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                )
               ],
             ),
 
@@ -106,7 +100,8 @@ class JobCard extends StatelessWidget {
               ]
             ),
             const SizedBox(height: 8.0),
-            Row(
+            Wrap(
+              spacing: 5,
               children: <Widget>[
                 Container(
                   height: 26,
@@ -124,7 +119,7 @@ class JobCard extends StatelessWidget {
                     )
                   )
                 ),
-                const SizedBox(width: 5),
+
                 Container(
                   height: 26,
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
