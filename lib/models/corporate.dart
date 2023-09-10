@@ -1,10 +1,8 @@
 
 class Corporate {
   // Wajib diisi saat Regist
-  String username;
   String corporationName;
-  String email;
-  String phoneNum;
+  String phoneNumber;
   DateTime? foundingDate;
   // Diisi di Corporate Profile
   String? aboutUs;
@@ -12,10 +10,8 @@ class Corporate {
 
   // Basic Corporate Constructor
   Corporate({
-    this.username = '',
     this.corporationName = '',
-    this.email = '',
-    this.phoneNum = '',
+    this.phoneNumber = '',
   });
 
 }
