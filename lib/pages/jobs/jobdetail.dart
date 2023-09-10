@@ -40,14 +40,14 @@ class _JobDetailState extends State<JobDetail> {
             icon: saved ? Icon(Icons.bookmark) : Icon(Icons.bookmark_outline),
           ),
         ],
-        backgroundColor: mainBgColor,
+        backgroundColor: bgColor,
         elevation: 0,
       ),
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
-          color: mainBgColor,
+          color: bgColor
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12.0),
