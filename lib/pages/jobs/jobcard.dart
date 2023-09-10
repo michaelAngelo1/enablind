@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:login_app/models/joblisting.dart';
+import 'package:login_app/pages/jobs/jobdetail.dart';
 import 'package:login_app/variables.dart';
 
 class JobCard extends StatelessWidget {
@@ -11,6 +12,14 @@ class JobCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context, MaterialPageRoute(builder: (context) => JobDetail())
+        );
+      },
+      child: Container(
     return Container(
         height: 150,
         width: 500,
@@ -28,6 +37,22 @@ class JobCard extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
+                      Text(
+                        "Altasian",
+                        style: GoogleFonts.plusJakartaSans(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                          color: titleContentColor,
+                        )
+                      ),
+                      // Role Text
+                      Text(
+                        "Product Designer",
+                        style: GoogleFonts.plusJakartaSans(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: titleContentColor,
+                        )
                       // Company Logo
                       Container(
                           width: 40,
@@ -71,6 +96,22 @@ class JobCard extends StatelessWidget {
                               ),
                             ),
                           ],
+                        ),
+                      )
+                    ],
+                  ),
+
+                  // Save Job List TODO: Change to iconButton
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Container(
+                          // margin: const EdgeInsets.only(left: 140.0),
+                          child: Icon(
+                            Icons.bookmark_border_outlined,
+                            color: titleContentColor,
+                          ),
                         ),
                       )
                     ],

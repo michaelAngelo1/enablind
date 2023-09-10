@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:login_app/models/joblisting.dart';
+
+class JobDetailSeeker extends StatelessWidget {
 import 'package:login_app/variables.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -8,6 +10,14 @@ class JobDetailSeeker extends StatefulWidget {
   const JobDetailSeeker({required this.job});
 
   @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Job Details'),
+      ),
+      body: Center(
+        child: Text('Job qualifications: ${job.jobQualifications}'),
+=======
   State<JobDetailSeeker> createState() => _JobDetailSeekerState();
 }
 
@@ -169,7 +179,6 @@ class _JobDetailSeekerState extends State<JobDetailSeeker> {
                         ],
                       ),
                     )
-
                     
                   ]
                 )
