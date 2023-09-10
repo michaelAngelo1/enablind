@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:login_app/models/joblisting.dart';
 import 'package:login_app/pages/jobs/jobdetail.dart';
 import 'package:login_app/variables.dart';
 
 class JobCard extends StatelessWidget {
   const JobCard({
     super.key,
+    required Joblisting job,
   });
 
   @override
   Widget build(BuildContext context) {
+
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -17,12 +20,13 @@ class JobCard extends StatelessWidget {
         );
       },
       child: Container(
+
         height: 150,
         width: 500,
         decoration: BoxDecoration(
           color: cardJobListColor,
           borderRadius: BorderRadius.all(Radius.circular(16)),
-          
+
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15),
@@ -66,9 +70,26 @@ class JobCard extends StatelessWidget {
                           fontWeight: FontWeight.w600,
                           color: titleContentColor,
                         )
+
                       ),
+                      // Save Job List TODO: Change to iconButton
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Container(
+                              // margin: const EdgeInsets.only(left: 140.0),
+                              child: Icon(
+                                Icons.bookmark_border_outlined,
+                                color: titleContentColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
                     ],
                   ),
+
                   // Save Job List TODO: Change to iconButton
                   Expanded(
                     child: Column(
