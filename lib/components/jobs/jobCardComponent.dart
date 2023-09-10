@@ -32,8 +32,8 @@ class _JobCardComponentState extends State<JobCardComponent> {
           },
           child: Container(
               width: widget.enableBookmark
-                  ? screenWidth - 20 - 65
-                  : screenWidth - 20,
+                  ? screenWidth - 48 - 65
+                  : screenWidth - 48,
               height: 120,
               padding: const EdgeInsets.only(
                 top: 15.0,
@@ -44,6 +44,14 @@ class _JobCardComponentState extends State<JobCardComponent> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
                 color: accentColor,
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black, // Shadow color
+                    spreadRadius: 1, // Spread radius
+                    blurRadius: 5, // Blur radius
+                    offset: Offset(5, 5), // Offset (horizontal, vertical)
+                  ),
+                ],
               ),
               child: Column(
                 children: [
@@ -93,7 +101,7 @@ class _JobCardComponentState extends State<JobCardComponent> {
                       ),
                       child: Center(
                         child: Text(
-                          widget.job.jobSalary,
+                          widget.job.jobType,
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 14,
@@ -127,7 +135,7 @@ class _JobCardComponentState extends State<JobCardComponent> {
                       isBookmarked
                           ? Icons.bookmark
                           : Icons.bookmark_border_outlined,
-                      color: isBookmarked ? Colors.black : Colors.white,
+                      color: Colors.black,
                       size: 30,
                       semanticLabel: isBookmarked
                           ? 'click to remove saved job'
