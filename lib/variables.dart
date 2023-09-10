@@ -9,4 +9,5 @@ Color bgColor = Color.fromARGB(255, 34, 36, 40);
 const mainBgColor = Color(0xffb141517);
 const bottomNavBarColor = Color(0xffb0F0C07);
 const disabledNavbar = Color(0xffb6a707c);
-
+const topbarColor = Color.fromARGB(255, 34, 36, 40);
+const navbarIconColor = Color.fromARGB(255, 176, 186, 218);
