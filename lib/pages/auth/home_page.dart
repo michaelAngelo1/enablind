@@ -33,6 +33,8 @@ class _HomePageState extends State<HomePage> {
             icon: const Icon(Icons.logout),
           ),
         ],
+        backgroundColor: mainBgColor,
+        elevation: 0,
       ),
       body: <Widget>[
           Container(
