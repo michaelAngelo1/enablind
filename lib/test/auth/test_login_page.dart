@@ -4,9 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:login_app/test/auth/test_register_page.dart';
-import 'package:login_app/test/auth/test_register_select_page.dart';
-import 'package:login_app/test/corporate/test_corporate_home_page.dart';
-import 'package:login_app/test/jobseeker/test_jobseeker_home_page.dart';
+import 'package:login_app/test/corporate/test_corporate_bottom_navbar.dart';
+import 'package:login_app/test/jobseeker/test_jobseeker_bottom_navbar.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -30,6 +29,7 @@ class LoginPageState extends State<LoginPage> {
       final corporateDoc = await firestore.collection('Users/Role/Corporations').doc(uid).get();
 
       print(jobseekerDoc);
+      print(uid);
 
       if (jobseekerDoc.exists) {
         return 'jobseeker';
@@ -134,12 +134,12 @@ class LoginPageState extends State<LoginPage> {
         if (userType == 'jobseeker') {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => const JobseekerHomePage()), // Replace with your jobseeker home page
+            MaterialPageRoute(builder: (context) => const JobseekerNavbar()), // Replace with your jobseeker home page
           );
         } else if (userType == 'corporate') {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => const CorporateHomePage()), // Replace with your corporate home page
+            MaterialPageRoute(builder: (context) => const CorporateNavbar()), // Replace with your corporate home page
           );
         } else {
           print("here");

@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:login_app/test/jobseeker/test_jobseeker_home_page.dart';
+import 'package:login_app/test/jobseeker/test_jobseeker_bottom_navbar.dart';
 
 class JobseekerDataPage extends StatefulWidget {
   const JobseekerDataPage({Key? key}) : super(key: key);
@@ -31,7 +31,7 @@ class JobseekerDataPageState extends State<JobseekerDataPage> {
       lastDate: DateTime.now(),
     ))!;
 
-    if (picked != null && picked != dateOfBirth) {
+    if (picked != dateOfBirth) {
       setState(() {
         dateOfBirth = picked;
         _dateOfBirthController.text = "${picked.toLocal()}".split(' ')[0];
@@ -154,7 +154,7 @@ class JobseekerDataPageState extends State<JobseekerDataPage> {
       try {
         await firestore.collection('Users/Role/Jobseekers').doc(uid).set(jobseekerRegistrationData);
 
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const JobseekerHomePage()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const JobseekerNavbar()));
       } catch (e) {
         print('Error submitting data: $e');
         // Handle the error as needed

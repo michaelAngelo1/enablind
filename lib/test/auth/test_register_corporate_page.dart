@@ -1,7 +1,9 @@
+// ignore_for_file: avoid_print
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:login_app/test/corporate/test_corporate_home_page.dart';
+import 'package:login_app/test/corporate/test_corporate_bottom_navbar.dart';
 
 class CorporateDataPage extends StatefulWidget {
   const CorporateDataPage({Key? key}) : super(key: key);
@@ -30,7 +32,7 @@ class CorporateDataPageState extends State<CorporateDataPage> {
       lastDate: DateTime.now(),
     ))!;
 
-    if (picked != null && picked != foundingDate) {
+    if (picked != foundingDate) {
       setState(() {
         foundingDate = picked;
         _foundingDateController.text = "${picked.toLocal()}".split(' ')[0];
@@ -125,7 +127,7 @@ class CorporateDataPageState extends State<CorporateDataPage> {
 
         // Navigate to the desired screen after data submission
         // For example, you can navigate to the home page
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const CorporateHomePage()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const CorporateNavbar()));
       } catch (e) {
         print('Error submitting data: $e');
         // Handle the error as needed

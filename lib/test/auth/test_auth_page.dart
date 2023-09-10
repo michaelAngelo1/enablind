@@ -4,8 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:login_app/db_instance.dart';
-import 'package:login_app/test/corporate/test_corporate_home_page.dart';
-import 'package:login_app/test/jobseeker/test_jobseeker_home_page.dart';
+import 'package:login_app/test/corporate/test_corporate_bottom_navbar.dart';
+import 'package:login_app/test/jobseeker/test_jobseeker_bottom_navbar.dart';
 import 'test_login_page.dart';
 
 class AuthPage extends StatelessWidget {
@@ -62,9 +62,9 @@ class AuthPage extends StatelessWidget {
 
                 // Now, you have the user type, and you can navigate accordingly
                 if (userType == 'jobseeker') {
-                  return const JobseekerHomePage();
+                  return const JobseekerNavbar();
                 } else if (userType == 'corporate') {
-                  return const CorporateHomePage();
+                  return const CorporateNavbar();
                 } else {
                   return const LoginPage();
                 }
