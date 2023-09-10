@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:login_app/components/jobs/componentMaker.dart';
 import 'package:login_app/db_instance.dart';
 import 'package:login_app/pages/jobs/jobcard.dart';
 import 'package:login_app/variables.dart';
@@ -12,7 +13,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   // page Index
   int currentPageIndex = 0;
 
@@ -29,144 +29,125 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         actions: [
           IconButton(
+            icon: const Icon(Icons.star),
+            tooltip: 'goto component maker',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ComponentTest()),
+              );
+            },
+          ),
+          IconButton(
             onPressed: signUserOut,
             icon: const Icon(Icons.logout),
           ),
         ],
       ),
       body: <Widget>[
-          Container(
+        Container(
             decoration: const BoxDecoration(
               color: Color(0xffb0f0c07),
             ),
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    "Hi, ${user.email!}",
-                    style: GoogleFonts.plusJakartaSans(
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.w600,
-                      color: titleContentColor
-                    )
-                  ),
-                  const SizedBox(height: 30.0),
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Text("Hi, ${user.email!}",
+                          style: GoogleFonts.plusJakartaSans(
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.w600,
+                              color: titleContentColor)),
+                      const SizedBox(height: 30.0),
 
-                  // Title JobList
-                  Row(
-                    children: [
-                      Text(
-                        "Popular Jobs",
-                        style: GoogleFonts.plusJakartaSans(
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w600,
-                          color: titleContentColor,
-                        )
+                      // Title JobList
+                      Row(
+                        children: [
+                          Text("Popular Jobs",
+                              style: GoogleFonts.plusJakartaSans(
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.w600,
+                                color: titleContentColor,
+                              )),
+                          Expanded(
+                              flex: 2,
+                              child: Container(
+                                color: Colors.transparent,
+                                width: 20,
+                              )),
+                          Text("See all",
+                              style: GoogleFonts.plusJakartaSans(
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xffb404040),
+                              ))
+                        ],
                       ),
-                      Expanded(
-                        flex: 2,
-                        child: Container(
-                          color: Colors.transparent,
-                          width: 20,
-                        )
-                      ),
-                      Text(
-                        "See all",
-                        style: GoogleFonts.plusJakartaSans(
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.w600,
-                          color: Color(0xffb404040),
-                        )
-                      )
-                    ],
-                  ),
 
-                  const SizedBox(height: 14.0),
+                      const SizedBox(height: 14.0),
 
-                  // Category Job 2x4
-                  
+                      // Category Job 2x4
 
-                  // Card Job List
-                  JobCard()
+                      // Card Job List
+                      //JobCard(job: null,),
+                    ]))),
 
-
-                ]
-              )
-            )
-          ),
-
-          // Update Page
-          Container(
+        // Update Page
+        Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            decoration: BoxDecoration(
-              color: Colors.blue
-            )
-          ),
+            decoration: BoxDecoration(color: Colors.blue)),
 
-          // Saved Jobs
-          Container(
+        // Saved Jobs
+        Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            decoration: BoxDecoration(
-              color: Colors.red
-            )
-          ),
+            decoration: BoxDecoration(color: Colors.red)),
 
-          // Profile
-          Container(
+        // Profile
+        Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            decoration: BoxDecoration(
-              color: Colors.green
-            )
-          )
-        ][currentPageIndex],
+            decoration: BoxDecoration(color: Colors.green))
+      ][currentPageIndex],
 
       // BottomNavBar: Explore, Notifs, Saved, Profile
       bottomNavigationBar: NavigationBar(
-        onDestinationSelected: (int index) {
-          setState(() {
-            currentPageIndex = index;
-          });
-        },
-        indicatorColor: accentColor,
-        selectedIndex: currentPageIndex,
-        destinations: const <Widget>[
+          onDestinationSelected: (int index) {
+            setState(() {
+              currentPageIndex = index;
+            });
+          },
+          indicatorColor: accentColor,
+          selectedIndex: currentPageIndex,
+          destinations: const <Widget>[
+            // Explore Jobs
+            NavigationDestination(
+                selectedIcon: Icon(Icons.work),
+                icon: Icon(Icons.work_outline),
+                label: 'Explore'),
 
-          // Explore Jobs
-          NavigationDestination(
-            selectedIcon: Icon(Icons.work),
-            icon: Icon(Icons.work_outline),
-            label: 'Explore'
-          ),
+            // Notifs
+            NavigationDestination(
+                selectedIcon: Icon(Icons.notifications),
+                icon: Icon(Icons.notifications_outlined),
+                label: 'Update'),
 
-          // Notifs
-          NavigationDestination(
-            selectedIcon: Icon(Icons.notifications),
-            icon: Icon(Icons.notifications_outlined),
-            label: 'Update'
-          ),
+            // Saved Jobs
+            NavigationDestination(
+                selectedIcon: Icon(Icons.bookmark),
+                icon: Icon(Icons.bookmark_border),
+                label: 'Saved'),
 
-          // Saved Jobs
-          NavigationDestination(
-            selectedIcon: Icon(Icons.bookmark),
-            icon: Icon(Icons.bookmark_border),
-            label: 'Saved'
-          ),
-
-          // Profile
-          NavigationDestination(
-            selectedIcon: Icon(Icons.person),
-            icon: Icon(Icons.person_outline),
-            label: 'Profile'
-          ),
-        ]
-      ),
+            // Profile
+            NavigationDestination(
+                selectedIcon: Icon(Icons.person),
+                icon: Icon(Icons.person_outline),
+                label: 'Profile'),
+          ]),
     );
   }
 }
