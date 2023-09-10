@@ -5,6 +5,8 @@ import 'package:login_app/components/jobs/jobCardComponent.dart';
 import 'package:login_app/db_instance.dart';
 import 'package:login_app/models/joblisting.dart';
 import 'package:login_app/pages/jobs/jobcard.dart';
+import 'package:login_app/models/joblisting.dart';
+// import 'package:login_app/pages/jobs/jobcard.dart';
 import 'package:login_app/variables.dart';
 
 class HomePage extends StatefulWidget {
@@ -174,6 +176,84 @@ class _HomePageState extends State<HomePage> {
             width: screenWidth,
             height: screenHeight,
             decoration: BoxDecoration(color: Colors.green)),
+        backgroundColor: bgColor,
+        elevation: 0,
+      ),
+      body: <Widget>[
+        Container(
+            decoration: BoxDecoration(
+              color: bgColor,
+            ),
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Text("Hi, ${user.email!}",
+                          style: GoogleFonts.plusJakartaSans(
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.w600,
+                              color: titleContentColor)),
+                      const SizedBox(height: 30.0),
+
+                      // Title JobList
+                      Row(
+                        children: [
+                          Text("Popular Jobs",
+                              style: GoogleFonts.plusJakartaSans(
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.w600,
+                                color: titleContentColor,
+                              )),
+                          Expanded(
+                              flex: 2,
+                              child: Container(
+                                color: Colors.transparent,
+                                width: 20,
+                              )),
+                          Text("See all",
+                              style: GoogleFonts.plusJakartaSans(
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xffb404040),
+                              ))
+                        ],
+                      ),
+
+                      const SizedBox(height: 14.0),
+
+                      // Card Job List
+
+                      // TODO: ADD JOB CARD COMPONENT HERE.
+
+
+                    ]
+                  )
+                )
+          ),
+
+        // Update Page
+        Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          decoration: BoxDecoration(color: Colors.blue)
+        ),
+
+        // Saved Jobs
+        Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          decoration: BoxDecoration(color: Colors.red)
+        ),
+
+        // Profile
+        Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          decoration: BoxDecoration(color: Colors.green)
+        )
       ][currentPageIndex],
 
       // BottomNavBar: Explore, Notifs, Saved, Profile
@@ -241,6 +321,62 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
+          onDestinationSelected: (int index) {
+            setState(() {
+              currentPageIndex = index;
+            });
+          },
+          backgroundColor: bottomNavBarColor,
+          selectedIndex: currentPageIndex,
+          destinations: const <Widget>[
+            // Explore Jobs
+            NavigationDestination(
+                selectedIcon: Icon(
+                  Icons.work,
+                  color: accentColor
+                ),
+                icon: Icon(
+                  Icons.work_outline,
+                  color: disabledNavbar
+                ),
+                label: 'Explore'),
+
+            // Notifs
+            NavigationDestination(
+                selectedIcon: Icon(
+                  Icons.notifications,
+                  color: accentColor
+                ),
+                icon: Icon(
+                  Icons.notifications_outlined,
+                  color: disabledNavbar
+                ),
+                label: 'Update'),
+
+            // Saved Jobs
+            NavigationDestination(
+                selectedIcon: Icon(
+                  Icons.bookmark,
+                  color: accentColor
+                ),
+                icon: Icon(
+                  Icons.bookmark_border,
+                  color: disabledNavbar
+                ),
+                label: 'Saved'),
+
+            // Profile
+            NavigationDestination(
+                selectedIcon: Icon(
+                  Icons.person,
+                  color: accentColor
+                ),
+                icon: Icon(
+                  Icons.person_outline,
+                  color: disabledNavbar
+                ),
+                label: 'Profile'),
+          ]),
     );
   }
 }
