@@ -25,7 +25,7 @@ class JobseekerLandingPage extends StatelessWidget {
         ],
       ),
       body: const Center(
-        child: Text('Welcome to Your App'),
+        child: Text('Welcome to Jobseeker'),
       ),
     );
   }

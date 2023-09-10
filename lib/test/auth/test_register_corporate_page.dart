@@ -118,7 +118,8 @@ class CorporateDataPageState extends State<CorporateDataPage> {
         'phoneNumber': phoneNumber,
         'foundingDate': foundingDate,
         'registrationDate': registrationDate,
-        'userType': 'corporate'
+        'userType': 'corporate',
+        'hasRegistered': true
       };
 
       try {

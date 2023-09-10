@@ -147,7 +147,8 @@ class JobseekerDataPageState extends State<JobseekerDataPage> {
         'dateOfBirth': dateOfBirth,
         'gender': gender,
         'registrationDate': registrationDate,
-        'userType': 'jobseeker'
+        'userType': 'jobseeker',
+        'hasRegistered': true
       };
 
 

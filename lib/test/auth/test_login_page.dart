@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:login_app/test/auth/test_register_page.dart';
+import 'package:login_app/test/auth/test_register_select_page.dart';
 import 'package:login_app/test/corporate/test_corporate_bottom_navbar.dart';
 import 'package:login_app/test/jobseeker/test_jobseeker_bottom_navbar.dart';
 
@@ -44,6 +45,29 @@ class LoginPageState extends State<LoginPage> {
     }
   }
 
+  Future<bool> hasUserRegistered(String uid, String userType) async {
+    String firestoreQuery = "";
+    if (userType == "corporate") {
+      firestoreQuery = "Users/Role/Corporations";
+    } else if (userType == "jobseeker") {
+      firestoreQuery = "Users/Role/Jobseekers";
+    }
+
+    try {
+      final DocumentSnapshot userDoc =
+          await FirebaseFirestore.instance.collection(firestoreQuery).doc(uid).get();
+      if (userDoc.exists) {
+        final data = userDoc.data() as Map<String, dynamic>?;
+        if (data != null) {
+          final hasRegistered = data['hasRegistered'] as bool?;
+          return hasRegistered ?? false; // Default to false if the field is missing
+        }
+      }
+    } catch (e) {
+      print('Error checking user registration: $e');
+    }
+    return false; // Default to false in case of any error
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -122,30 +146,44 @@ class LoginPageState extends State<LoginPage> {
         );
 
         final user = authResult.user;
+        final uid = user!.uid;
 
-        final userType = await getUserType(user!.uid);
+        final userType = await getUserType(uid);
+        bool hasRegistered = await hasUserRegistered(uid, userType);
 
         setState(() {
           _isLoading = false;
         });
 
         print(userType);
+        print(hasRegistered);
 
-        if (userType == 'jobseeker') {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const JobseekerNavbar()), // Replace with your jobseeker home page
-          );
-        } else if (userType == 'corporate') {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const CorporateNavbar()), // Replace with your corporate home page
-          );
+        // check if user has finished registration, if user has been created but not finished registration, will be thrown to select role & input initial data
+
+        if (hasRegistered) {
+          if (userType == 'jobseeker') {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const JobseekerNavbar()), // Replace with your jobseeker home page
+            );
+          } else if (userType == 'corporate') {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const CorporateNavbar()), // Replace with your corporate home page
+            );
+          } else {
+            print("Unknown user type");
+            // Handle unknown user type
+            // You can show an error message or navigate to a default page
+          }
         } else {
-          print("here");
-          // Handle unknown user type
-          // You can show an error message or navigate to a default page
+          print("User has not registered yet");
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const SelectPage()), // go to select role & input initial data
+          );
         }
+
       } catch (e) {
         setState(() {
           _isLoading = false;
