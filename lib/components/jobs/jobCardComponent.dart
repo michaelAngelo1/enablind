@@ -7,8 +7,11 @@ import 'package:login_app/variables.dart';
 class JobCardComponent extends StatefulWidget {
   final Joblisting job;
   final bool enableBookmark;
-  const JobCardComponent(
-      {super.key, required this.job, this.enableBookmark = true});
+  const JobCardComponent({
+    super.key, 
+    required this.job, 
+    this.enableBookmark = true
+  });
 
   @override
   State<JobCardComponent> createState() => _JobCardComponentState();
@@ -129,7 +132,7 @@ class _JobCardComponentState extends State<JobCardComponent> {
                   isBookmarked
                       ? Icons.bookmark
                       : Icons.bookmark_border_outlined,
-                  color: isBookmarked ? Colors.black : Colors.white,
+                  color: titleJobCardColor,
                   size: 30,
                   semanticLabel: isBookmarked
                       ? 'click to remove saved job'
