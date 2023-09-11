@@ -1,10 +1,11 @@
-
 class Joblisting {
   String jobTitle;
   String jobDescription;
   String jobQualifications;
   String jobType;
   String jobSalary;
+  String corpLogo;
+  String corpName;
   DateTime jobListingPublishDate = DateTime.now();
   DateTime? jobListingCloseDate;
 
@@ -15,7 +16,8 @@ class Joblisting {
     this.jobQualifications = '',
     this.jobType = '',
     this.jobSalary = '',
+    this.corpLogo = '',
+    this.corpName = '',
     DateTime? jobListingCloseDate,
   }) : jobListingCloseDate = null;
-
 }
