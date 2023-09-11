@@ -13,3 +13,6 @@ const navbarIconColor = Color.fromARGB(255, 176, 186, 218);
 const bottomNavBarColor = Color(0xffb0F0C07);
 const disabledNavbar = Color(0xffb6a707c);
 const buttonGroupColor = Color(0xffb0c0d15);
+
+// Font color title job card
+const titleJobCardColor = Color(0xffb131516);

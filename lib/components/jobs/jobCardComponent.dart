@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:login_app/models/joblisting.dart';
 import 'package:login_app/pages/jobseeker/jobDetailSeeker_page.dart';
 import 'package:login_app/variables.dart';
@@ -32,7 +33,7 @@ class _JobCardComponentState extends State<JobCardComponent> {
           },
           child: Container(
               width: widget.enableBookmark
-                  ? screenWidth - 20 - 65
+                  ? screenWidth - 20 - 80
                   : screenWidth - 20,
               height: 120,
               padding: const EdgeInsets.only(
@@ -66,17 +67,18 @@ class _JobCardComponentState extends State<JobCardComponent> {
                         children: [
                           Text(
                             widget.job.corpName,
-                            style: const TextStyle(
-                              color: Colors.black,
+                            style: GoogleFonts.plusJakartaSans(
+                              color: titleJobCardColor,
                               fontSize: 16,
                             ),
                           ),
                           Text(
                             widget.job.jobTitle,
-                            style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold),
+                            style: GoogleFonts.plusJakartaSans(
+                                color: titleJobCardColor,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold
+                              ),
                           ),
                         ],
                       ),
@@ -105,38 +107,36 @@ class _JobCardComponentState extends State<JobCardComponent> {
                 ],
               )),
         ),
+
+
         if (widget.enableBookmark)
-          Row(
-            children: [
-              const SizedBox(width: 5),
-              GestureDetector(
-                onTap: () {
-                  // to-do handle tap
-                  setState(() {
-                    isBookmarked = !isBookmarked; // Toggle bookmark state
-                  });
-                },
-                child: Container(
-                  width: 60,
-                  height: 120,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    color: accentColor,
-                  ),
-                  child: Icon(
-                      isBookmarked
-                          ? Icons.bookmark
-                          : Icons.bookmark_border_outlined,
-                      color: isBookmarked ? Colors.black : Colors.white,
-                      size: 30,
-                      semanticLabel: isBookmarked
-                          ? 'click to remove saved job'
-                          : 'click to save job'),
-                ),
-              )
-            ],
+          const SizedBox(width: 5),
+          GestureDetector(
+            onTap: () {
+              // to-do handle tap
+              setState(() {
+                isBookmarked = !isBookmarked; // Toggle bookmark state
+              });
+            },
+            child: Container(
+              width: 65,
+              height: 120,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+                color: accentColor,
+              ),
+              child: Icon(
+                  isBookmarked
+                      ? Icons.bookmark
+                      : Icons.bookmark_border_outlined,
+                  color: isBookmarked ? Colors.black : Colors.white,
+                  size: 30,
+                  semanticLabel: isBookmarked
+                      ? 'click to remove saved job'
+                      : 'click to save job'),
+            ),
           )
-      ],
+        ],
     );
   }
 }
