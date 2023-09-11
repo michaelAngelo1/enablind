@@ -1,9 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:login_app/components/jobs/componentMaker.dart';
 import 'package:login_app/db_instance.dart';
-import 'package:login_app/models/joblisting.dart';
-import 'package:login_app/pages/auth/home_page.dart';
+import 'package:login_app/pages/home/home_page.dart';
 import 'package:login_app/pages/auth/login_page.dart';
 
 class AuthPage extends StatelessWidget {
