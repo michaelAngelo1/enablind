@@ -53,13 +53,6 @@ class _ComponentTestState extends State<ComponentTest> {
     jobListingCloseDate: DateTime(2023, 10, 8),
   );
 
-  Jobseeker myApplicant = Jobseeker(
-    username: 'Robertus',
-    fullName: 'Robertus Roberta',
-    email: 'robert@binus.ac.id',
-    phoneNum: '08987654321',
-  );
-
   @override
   Widget build(BuildContext context) {
     return BackgroundTemplate(
@@ -85,7 +78,6 @@ class _ComponentTestState extends State<ComponentTest> {
                 ),
                 UpdatesCard(job: myJob, newUpdate: false),
                 const SizedBox(height: 20),
-                ApplicantCard(applicant: myApplicant)
               ],
             ),
           ),

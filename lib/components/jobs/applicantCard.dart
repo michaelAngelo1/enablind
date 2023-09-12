@@ -67,7 +67,7 @@ class ApplicantCard extends StatelessWidget {
                                 fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            applicant.email,
+                            "applicant.email",
                             style: GoogleFonts.plusJakartaSans(
                               color: titleJobCardColor,
                               fontSize: 16,
