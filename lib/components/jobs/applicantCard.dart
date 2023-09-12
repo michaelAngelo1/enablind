@@ -1,24 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:login_app/models/joblisting.dart';
-import 'package:login_app/pages/jobseeker/jobDetailSeeker_page.dart';
+import 'package:login_app/models/jobseeker.dart';
 import 'package:login_app/variables.dart';
 
-class JobCardComponent extends StatefulWidget {
-  final Joblisting job;
-  final bool enableBookmark;
-  const JobCardComponent({
+class ApplicantCard extends StatelessWidget {
+  final Jobseeker applicant;
+  const ApplicantCard({
     super.key,
-    required this.job,
-    this.enableBookmark = true,
+    required this.applicant,
   });
-
-  @override
-  State<JobCardComponent> createState() => _JobCardComponentState();
-}
-
-class _JobCardComponentState extends State<JobCardComponent> {
-  bool isBookmarked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -28,16 +18,9 @@ class _JobCardComponentState extends State<JobCardComponent> {
         GestureDetector(
           onTap: () {
             // Navigate to the destination page
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => JobDetailSeeker(job: widget.job)),
-            );
           },
           child: Container(
-              width: widget.enableBookmark
-                  ? screenWidth - 28 - 70
-                  : screenWidth - 28,
+              width: screenWidth - 28,
               height: 120,
               padding: const EdgeInsets.only(
                 top: 15.0,
@@ -67,7 +50,7 @@ class _JobCardComponentState extends State<JobCardComponent> {
                           width: 50,
                           height: 50,
                           child: Image.network(
-                            widget.job.corpLogo,
+                            'lib/images/apple.png', // to-do change
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -77,18 +60,18 @@ class _JobCardComponentState extends State<JobCardComponent> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            widget.job.corpName,
-                            style: GoogleFonts.plusJakartaSans(
-                              color: titleJobCardColor,
-                              fontSize: 16,
-                            ),
-                          ),
-                          Text(
-                            widget.job.jobTitle,
+                            applicant.fullName,
                             style: GoogleFonts.plusJakartaSans(
                                 color: titleJobCardColor,
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            applicant.email,
+                            style: GoogleFonts.plusJakartaSans(
+                              color: titleJobCardColor,
+                              fontSize: 16,
+                            ),
                           ),
                         ],
                       ),
@@ -105,7 +88,7 @@ class _JobCardComponentState extends State<JobCardComponent> {
                       ),
                       child: Center(
                         child: Text(
-                          widget.job.jobType,
+                          'job position',
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 14,
@@ -117,45 +100,6 @@ class _JobCardComponentState extends State<JobCardComponent> {
                 ],
               )),
         ),
-        if (widget.enableBookmark)
-          Row(
-            children: [
-              const SizedBox(width: 5),
-              GestureDetector(
-                onTap: () {
-                  // to-do handle tap
-                  setState(() {
-                    isBookmarked = !isBookmarked; // Toggle bookmark state
-                  });
-                },
-                child: Container(
-                  width: 65,
-                  height: 120,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    color: accentColor,
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.black, // Shadow color
-                        spreadRadius: 1, // Spread radius
-                        blurRadius: 5, // Blur radius
-                        offset: Offset(5, 5), // Offset (horizontal, vertical)
-                      ),
-                    ],
-                  ),
-                  child: Icon(
-                      isBookmarked
-                          ? Icons.bookmark
-                          : Icons.bookmark_border_outlined,
-                      color: Colors.black,
-                      size: 30,
-                      semanticLabel: isBookmarked
-                          ? 'click to remove saved job'
-                          : 'click to save job'),
-                ),
-              ),
-            ],
-          ),
       ],
     );
   }

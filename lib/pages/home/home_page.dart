@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:login_app/components/jobs/componentMaker.dart';
+import 'package:login_app/components/componentMaker.dart';
 import 'package:login_app/components/jobs/jobCardComponent.dart';
 import 'package:login_app/db_instance.dart';
 import 'package:login_app/models/joblisting.dart';
@@ -33,32 +33,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     //data
-    jobList.add(
-      Joblisting(
-        jobTitle: 'Software Developer',
-        jobDescription: 'This is a job description.',
-        jobQualifications: 'Bachelor\'s degree in Computer Science',
-        jobType: 'Part-time',
-        jobSalary: 'IDR 4.000.000 - IDR 5.000.000',
-        corpLogo:
-            'https://firebasestorage.googleapis.com/v0/b/enablind-db.appspot.com/o/ptabc.jpg?alt=media&token=eba597b4-109c-438d-a3f7-322712e27e03',
-        corpName: 'ABC Corporation',
-        jobListingCloseDate: DateTime(2023, 10, 8),
-      ),
-    );
-    jobList.add(
-      Joblisting(
-        jobTitle: 'Hardware Developer',
-        jobDescription: 'This is a job description.',
-        jobQualifications: 'Bachelor\'s degree in Computer Engineering',
-        jobType: 'Full-time',
-        jobSalary: 'IDR 5.000.000 - IDR 8.000.000',
-        corpLogo:
-            'https://firebasestorage.googleapis.com/v0/b/enablind-db.appspot.com/o/ptabc.jpg?alt=media&token=eba597b4-109c-438d-a3f7-322712e27e03',
-        corpName: 'DEF Corporation',
-        jobListingCloseDate: DateTime(2023, 10, 8),
-      ),
-    );
+    
 
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
@@ -105,11 +80,13 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: <Widget>[
-
         // EDITABLE AREA FOR CONTRIBUTORS
 
         // exploreSeeker_page
-        ExploreSeeker(screenHeight: screenHeight, screenWidth: screenWidth, jobList: jobList),
+        ExploreSeeker(
+            screenHeight: screenHeight,
+            screenWidth: screenWidth,
+            jobList: jobList),
 
         // Update Page
         UpdatesSeeker(),
@@ -119,10 +96,9 @@ class _HomePageState extends State<HomePage> {
 
         // Profile
         Container(
-          width: screenWidth,
-          height: screenHeight,
-          decoration: BoxDecoration(color: Colors.green)
-        ),
+            width: screenWidth,
+            height: screenHeight,
+            decoration: BoxDecoration(color: Colors.green)),
 
         // END EDITABLE AREA
       ][currentPageIndex],
