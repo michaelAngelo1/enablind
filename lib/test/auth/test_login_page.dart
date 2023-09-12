@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:login_app/pages/home/home_page.dart';
 import 'package:login_app/test/auth/test_register_page.dart';
 import 'package:login_app/test/auth/test_register_select_page.dart';
 import 'package:login_app/test/corporate/test_corporate_bottom_navbar.dart';
@@ -26,8 +27,10 @@ class LoginPageState extends State<LoginPage> {
   Future<String> getUserType(String uid) async {
     try {
       // Query and check If the UID exists in Jobseekers or Corporations and return unknown if not found
-      final jobseekerDoc = await firestore.collection('Users/Role/Jobseekers').doc(uid).get();
-      final corporateDoc = await firestore.collection('Users/Role/Corporations').doc(uid).get();
+      final jobseekerDoc =
+          await firestore.collection('Users/Role/Jobseekers').doc(uid).get();
+      final corporateDoc =
+          await firestore.collection('Users/Role/Corporations').doc(uid).get();
 
       print(jobseekerDoc);
       print(uid);
@@ -54,13 +57,16 @@ class LoginPageState extends State<LoginPage> {
     }
 
     try {
-      final DocumentSnapshot userDoc =
-          await FirebaseFirestore.instance.collection(firestoreQuery).doc(uid).get();
+      final DocumentSnapshot userDoc = await FirebaseFirestore.instance
+          .collection(firestoreQuery)
+          .doc(uid)
+          .get();
       if (userDoc.exists) {
         final data = userDoc.data() as Map<String, dynamic>?;
         if (data != null) {
           final hasRegistered = data['hasRegistered'] as bool?;
-          return hasRegistered ?? false; // Default to false if the field is missing
+          return hasRegistered ??
+              false; // Default to false if the field is missing
         }
       }
     } catch (e) {
@@ -117,7 +123,8 @@ class LoginPageState extends State<LoginPage> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const RegisterPage()),
+                      MaterialPageRoute(
+                          builder: (context) => const RegisterPage()),
                     );
                   },
                   child: const Text('Register'),
@@ -164,12 +171,16 @@ class LoginPageState extends State<LoginPage> {
           if (userType == 'jobseeker') {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => const JobseekerNavbar()), // Replace with your jobseeker home page
+              MaterialPageRoute(
+                  builder: (context) =>
+                      HomePage()), // Replace with your jobseeker home page
             );
           } else if (userType == 'corporate') {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => const CorporateNavbar()), // Replace with your corporate home page
+              MaterialPageRoute(
+                  builder: (context) =>
+                      const CorporateNavbar()), // Replace with your corporate home page
             );
           } else {
             print("Unknown user type");
@@ -180,10 +191,11 @@ class LoginPageState extends State<LoginPage> {
           print("User has not registered yet");
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => const SelectPage()), // go to select role & input initial data
+            MaterialPageRoute(
+                builder: (context) =>
+                    const SelectPage()), // go to select role & input initial data
           );
         }
-
       } catch (e) {
         setState(() {
           _isLoading = false;
@@ -195,5 +207,4 @@ class LoginPageState extends State<LoginPage> {
       }
     }
   }
-
 }

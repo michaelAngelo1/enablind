@@ -53,7 +53,7 @@ class ExploreSeeker extends StatelessWidget {
 
     return Container(
       decoration: const BoxDecoration(
-        color: topbarColor,
+        color: titleJobCardColor,
       ),
       height: screenHeight,
       width: screenWidth,

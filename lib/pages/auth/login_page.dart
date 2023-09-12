@@ -3,7 +3,7 @@ import 'package:login_app/app_state.dart';
 import 'package:login_app/components/my_button.dart';
 import 'package:login_app/components/my_textfield.dart';
 import 'package:login_app/components/square_tile.dart';
-import 'package:login_app/db_instance.dart';
+import 'package:login_app/firebase/db_instance.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 
