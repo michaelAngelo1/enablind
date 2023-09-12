@@ -6,6 +6,7 @@ class Joblisting {
   String jobSalary;
   String corpLogo;
   String corpName;
+  bool isFreelance;
   DateTime jobListingPublishDate = DateTime.now();
   DateTime? jobListingCloseDate;
 
@@ -18,6 +19,7 @@ class Joblisting {
     this.jobSalary = '',
     this.corpLogo = '',
     this.corpName = '',
+    this.isFreelance = false,
     DateTime? jobListingCloseDate,
   }) : jobListingCloseDate = null;
 }

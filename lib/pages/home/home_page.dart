@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:login_app/components/jobs/componentMaker.dart';
+import 'package:login_app/components/componentMaker.dart';
 import 'package:login_app/components/jobs/jobCardComponent.dart';
 import 'package:login_app/db_instance.dart';
 import 'package:login_app/models/joblisting.dart';
@@ -80,11 +80,13 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: <Widget>[
-
         // EDITABLE AREA FOR CONTRIBUTORS
 
         // exploreSeeker_page
-        ExploreSeeker(screenHeight: screenHeight, screenWidth: screenWidth, jobList: jobList),
+        ExploreSeeker(
+            screenHeight: screenHeight,
+            screenWidth: screenWidth,
+            jobList: jobList),
 
         // Update Page
         UpdatesSeeker(),
@@ -94,10 +96,9 @@ class _HomePageState extends State<HomePage> {
 
         // Profile
         Container(
-          width: screenWidth,
-          height: screenHeight,
-          decoration: BoxDecoration(color: Colors.green)
-        ),
+            width: screenWidth,
+            height: screenHeight,
+            decoration: BoxDecoration(color: Colors.green)),
 
         // END EDITABLE AREA
       ][currentPageIndex],
