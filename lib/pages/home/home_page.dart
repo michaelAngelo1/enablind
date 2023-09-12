@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:login_app/components/jobs/componentMaker.dart';
+import 'package:login_app/components/componentMaker.dart';
 import 'package:login_app/components/jobs/jobCardComponent.dart';
 import 'package:login_app/db_instance.dart';
 import 'package:login_app/models/joblisting.dart';
-import 'package:login_app/pages/jobs/jobcard.dart';
+import 'package:login_app/pages/home/categories/savedSeeker_page.dart';
+import 'package:login_app/pages/home/categories/updatesSeeker_page.dart';
 import 'package:login_app/variables.dart';
+
+import 'categories/exploreSeeker_page.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({super.key});
@@ -102,78 +105,27 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: <Widget>[
-        Container(
-          decoration: const BoxDecoration(
-            color: topbarColor,
-          ),
-          height: screenHeight,
-          width: screenWidth,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  const SizedBox(height: 15.0),
+        // EDITABLE AREA FOR CONTRIBUTORS
 
-                  // Title JobList
-                  Row(
-                    children: [
-                      Text("Popular Jobs",
-                          style: GoogleFonts.plusJakartaSans(
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.w600,
-                            color: titleContentColor,
-                          )),
-                      Expanded(
-                          flex: 2,
-                          child: Container(
-                            color: Colors.transparent,
-                            width: 20,
-                          )),
-                      Text("See all",
-                          style: GoogleFonts.plusJakartaSans(
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xffb404040),
-                          ))
-                    ],
-                  ),
-
-                  const SizedBox(height: 16.0),
-
-                  // Card Job List
-                  for (var job in jobList)
-                    Column(
-                      children: [
-                        JobCardComponent(job: job),
-                        const SizedBox(height: 16.0),
-                      ],
-                    ),
-                ],
-              ),
-            ),
-          ),
-        ),
+        // exploreSeeker_page
+        ExploreSeeker(
+            screenHeight: screenHeight,
+            screenWidth: screenWidth,
+            jobList: jobList),
 
         // Update Page
-        Container(
-            width: screenWidth,
-            height: screenHeight,
-            decoration: BoxDecoration(color: Colors.blue)),
+        UpdatesSeeker(),
 
         // Saved Jobs
-        Container(
-            width: screenWidth,
-            height: screenHeight,
-            decoration: BoxDecoration(color: Colors.red)),
+        SavedSeeker(),
 
         // Profile
         Container(
             width: screenWidth,
             height: screenHeight,
             decoration: BoxDecoration(color: Colors.green)),
+
+        // END EDITABLE AREA
       ][currentPageIndex],
 
       // BottomNavBar: Explore, Notifs, Saved, Profile
@@ -240,6 +192,77 @@ class _HomePageState extends State<HomePage> {
             label: 'Profile',
           ),
         ],
+      ),
+    );
+  }
+}
+
+class exploreSeeker extends StatelessWidget {
+  const exploreSeeker({
+    super.key,
+    required this.screenHeight,
+    required this.screenWidth,
+    required this.jobList,
+  });
+
+  final double screenHeight;
+  final double screenWidth;
+  final List<Joblisting> jobList;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: const BoxDecoration(
+        color: topbarColor,
+      ),
+      height: screenHeight,
+      width: screenWidth,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24.0),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              const SizedBox(height: 15.0),
+
+              // Title JobList
+              Row(
+                children: [
+                  Text("Popular Jobs",
+                      style: GoogleFonts.plusJakartaSans(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w600,
+                        color: titleContentColor,
+                      )),
+                  Expanded(
+                      flex: 2,
+                      child: Container(
+                        color: Colors.transparent,
+                        width: 20,
+                      )),
+                  Text("See all",
+                      style: GoogleFonts.plusJakartaSans(
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xffb404040),
+                      ))
+                ],
+              ),
+
+              const SizedBox(height: 16.0),
+
+              // Card Job List
+              for (var job in jobList)
+                Column(
+                  children: [
+                    JobCardComponent(job: job),
+                    const SizedBox(height: 16.0),
+                  ],
+                ),
+            ],
+          ),
+        ),
       ),
     );
   }
