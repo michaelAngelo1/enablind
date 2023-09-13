@@ -54,7 +54,7 @@ class CreateJobState extends State<CreateJob> {
   @override
   Widget build(BuildContext context) {
 
-    const List<String> list = <String>['One', 'Two', 'Three', 'Four'];
+    const List<String> list = <String>['Full-time', 'Part-time', 'Contract'];
     
     return Scaffold(
       appBar: AppBar(
@@ -104,6 +104,7 @@ class CreateJobState extends State<CreateJob> {
                 onSelected: (String? value) {
                   // This is called when the user selects an item.
                   setState(() {
+                    jobType = value!;
                   });
                 },
                 dropdownMenuEntries: list.map<DropdownMenuEntry<String>>((String value) {
@@ -133,8 +134,8 @@ class CreateJobState extends State<CreateJob> {
                 onTap: () async {
                   final selectedDate = await showDatePicker(
                     context: context,
-                    initialDate: jobListingCloseDate ?? DateTime.now(),
-                    firstDate: DateTime(2000),
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime.now(),
                     lastDate: DateTime(2101),
                   );
                   if (selectedDate != null) {
