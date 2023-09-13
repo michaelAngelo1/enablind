@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:login_app/components/jobs/jobCardComponent.dart';
 import 'package:login_app/variables.dart';
 import 'package:login_app/models/joblisting.dart';
-import 'package:login_app/pages/jobseeker/jobDetailSeeker_page.dart';
 
 class ComponentTest extends StatelessWidget {
   ComponentTest({super.key});
