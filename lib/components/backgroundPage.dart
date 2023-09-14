@@ -4,8 +4,13 @@ import 'package:login_app/variables.dart';
 class BackgroundTemplate extends StatelessWidget {
   final Widget child; // The content of the page
   final String title;
+  final List<Widget>? actions;
 
-  BackgroundTemplate({required this.child, required this.title});
+  BackgroundTemplate({
+    required this.title,
+    required this.child,
+    this.actions,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -19,15 +24,16 @@ class BackgroundTemplate extends StatelessWidget {
         title: Center(
           child: Text(
             title,
-            style: const TextStyle(fontSize: 16),
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
           ),
         ),
+        actions: actions,
       ),
       backgroundColor: bgColor,
       body: Padding(
         //container luar
         padding: const EdgeInsets.only(
-          top: 20.0,
+          top: 12.0,
           left: 10.0,
           right: 10.0,
         ),

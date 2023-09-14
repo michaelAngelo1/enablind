@@ -24,13 +24,6 @@ class JobseekerLandingPage extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => const WelcomePage()));
             },
           ),
-          IconButton(
-            icon: const Icon(Icons.star),
-            onPressed: () {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => ComponentTest()));
-            },
-          ),
         ],
       ),
       body: const Center(

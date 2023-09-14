@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:login_app/db_instance.dart';
 import 'package:login_app/pages/auth/loginEmail_page.dart';
 import 'package:login_app/pages/auth/welcome_page.dart';
+import 'package:login_app/pages/home/home_page.dart';
 import 'package:login_app/test/corporate/test_corporate_bottom_navbar.dart';
 import 'package:login_app/test/jobseeker/test_jobseeker_bottom_navbar.dart';
 import 'test_login_page.dart';
@@ -67,7 +68,7 @@ class AuthPage extends StatelessWidget {
 
               // Now, you have the user type, and you can navigate accordingly
               if (userType == 'jobseeker') {
-                return const JobseekerNavbar();
+                return HomePage();
               } else if (userType == 'corporate') {
                 return const CorporateNavbar();
               } else {

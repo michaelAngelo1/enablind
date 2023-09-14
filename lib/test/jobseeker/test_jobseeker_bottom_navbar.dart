@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+import 'package:login_app/pages/home/home_page.dart';
 import 'package:login_app/test/jobseeker/test_jobseeker_landing_page.dart';
 import 'package:login_app/test/jobseeker/test_jobseeker_profile_page.dart';
 import 'package:login_app/test/jobseeker/test_jobseeker_saved_jobs_page.dart';
@@ -16,7 +16,7 @@ class _JobseekerNavbarState extends State<JobseekerNavbar> {
   int _currentIndex = 0;
 
   final List<Widget> _pages = [
-    const JobseekerLandingPage(),
+    HomePage(),
     const JobseekerSavedJobs(),
     const JobseekerUpdates(),
     const JobseekerProfile(),

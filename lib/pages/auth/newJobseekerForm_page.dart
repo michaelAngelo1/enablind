@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:login_app/components/backgroundPage.dart';
 import 'package:login_app/components/buttons/yellowButton.dart';
 import 'package:login_app/components/formBox.dart';
+import 'package:login_app/pages/home/home_page.dart';
 import 'package:login_app/test/jobseeker/test_jobseeker_bottom_navbar.dart';
 import 'package:login_app/variables.dart';
 
@@ -184,8 +185,8 @@ class NewJobseekerFormState extends State<NewJobseekerForm> {
             .doc(uid)
             .set(jobseekerRegistrationData);
 
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const JobseekerNavbar()));
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => HomePage()));
       } catch (e) {
         print('DISINIIIIIIII Error submitting data: $e');
         // Handle the error as needed
