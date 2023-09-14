@@ -40,13 +40,11 @@ class _JobApplicationDetailPageState extends State<JobApplicationDetailPage> {
     String getStatusText(int status) {
       switch (status) {
         case 1:
-          return 'Accept for Interview';
+          return 'Pending';
         case 2:
-          return 'Final Accept';
+          return 'Accept for Interview';
         case 3:
-          return 'Some Other Status';
-        case 4:
-          return 'Another Status';
+          return 'Final Accept';
         default:
           return 'Reject';
       }
