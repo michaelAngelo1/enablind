@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:login_app/pages/auth/welcome_page.dart';
 import 'package:login_app/test/auth/test_auth_page.dart';
+import 'package:login_app/variables.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -29,14 +32,18 @@ void main() async {
 //   }
 // }
 
-
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        primarySwatch: accentColorSwatch,
+        textTheme: GoogleFonts.plusJakartaSansTextTheme(
+          Theme.of(context).textTheme,
+        ),
+      ),
       debugShowCheckedModeBanner: false,
       home: AuthPage(),
     );

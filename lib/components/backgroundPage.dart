@@ -14,13 +14,12 @@ class BackgroundTemplate extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: bgColor,
+        foregroundColor: Colors.white,
         elevation: 0,
         title: Center(
           child: Text(
             title,
-            style: const TextStyle(
-              fontSize: 16,
-            ),
+            style: const TextStyle(fontSize: 16),
           ),
         ),
       ),

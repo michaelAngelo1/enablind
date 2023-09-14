@@ -2,6 +2,19 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 const accentColor = Color(0xffbfcc636);
+final MaterialColor accentColorSwatch =
+    MaterialColor(accentColor.value, <int, Color>{
+  50: accentColor.withOpacity(0.1),
+  100: accentColor.withOpacity(0.2),
+  200: accentColor.withOpacity(0.3),
+  300: accentColor.withOpacity(0.4),
+  400: accentColor.withOpacity(0.5),
+  500: accentColor.withOpacity(0.6),
+  600: accentColor.withOpacity(0.7),
+  700: accentColor.withOpacity(0.8),
+  800: accentColor.withOpacity(0.9),
+  900: accentColor.withOpacity(1.0),
+});
 const titleContentColor = Color(0xffbf8fafc);
 
 Color cardJobListColor = Color.fromARGB(255, 97, 98, 108).withOpacity(0.2);
