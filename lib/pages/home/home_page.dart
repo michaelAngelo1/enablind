@@ -63,6 +63,7 @@ class _HomePageState extends State<HomePage> {
     // });
 
     return Scaffold(
+      resizeToAvoidBottomInset : false,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         toolbarHeight: 80,
