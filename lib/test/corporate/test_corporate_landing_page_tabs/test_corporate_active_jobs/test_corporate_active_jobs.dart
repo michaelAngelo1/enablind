@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:login_app/test/auth/test_login_page.dart';
 import 'test_corporate_job_details.dart';
 
 class CorporateJobListPage extends StatefulWidget {
@@ -12,6 +10,20 @@ class CorporateJobListPage extends StatefulWidget {
 }
 
 class _CorporateJobListPageState extends State<CorporateJobListPage> {
+  Future<List<Map<String, dynamic>>> _fetchCorporateDataForJobListings(
+      List<QueryDocumentSnapshot<Map<String, dynamic>>> jobListings) async {
+    final List<Future<DocumentSnapshot<Map<String, dynamic>>>> corporateDataFutures = [];
+
+    for (final jobListing in jobListings) {
+      final companyUid = jobListing['jobCompany'];
+      corporateDataFutures.add(FirebaseFirestore.instance.collection('Users/Role/Corporations').doc(companyUid).get());
+    }
+
+    final corporateDataSnapshots = await Future.wait(corporateDataFutures);
+
+    return corporateDataSnapshots.map((snapshot) => snapshot.data() as Map<String, dynamic>).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
@@ -31,67 +43,59 @@ class _CorporateJobListPageState extends State<CorporateJobListPage> {
           );
         }
 
-        return ListView.builder(
-          itemCount: jobListings.length,
-          itemBuilder: (context, index) {
-            final jobListing = jobListings[index].data() as Map<String, dynamic>;
-            final companyUid = jobListing['jobCompany'];
+        return FutureBuilder<List<Map<String, dynamic>>>(
+          future: _fetchCorporateDataForJobListings(jobListings),
+          builder: (context, corporateDataSnapshot) {
+            if (corporateDataSnapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
 
-            return InkWell(
-              onTap: () {
-                // Navigate to a new page when ListTile is tapped
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => JobDetailsPage(jobListing: jobListing),
-                  ),
-                );
-              },
-              child: FutureBuilder(
-                future: FirebaseFirestore.instance.collection('Users/Role/Corporations').doc(companyUid).get(),
-                builder: (context, companySnapshot) {
-                  if (companySnapshot.connectionState == ConnectionState.waiting) {
-                    return ListTile(
-                      title: Text(jobListing['jobTitle'] ?? ''),
-                      subtitle: Text(jobListing['jobType'] ?? ''),
-                      // You can add more details from the job listing here
-                      trailing: const CircularProgressIndicator(), // Loading indicator while fetching company data
+            if (corporateDataSnapshot.hasError) {
+              return const Center(
+                child: Text('Error loading corporate data.'),
+              );
+            }
+
+            if (!corporateDataSnapshot.hasData || corporateDataSnapshot.data!.isEmpty) {
+              return const Center(
+                child: Text('No corporate data available.'),
+              );
+            }
+
+            final corporateDataList = corporateDataSnapshot.data!;
+            final jobListWidgets = <Widget>[];
+
+            for (var i = 0; i < jobListings.length; i++) {
+              final jobListing = jobListings[i].data() as Map<String, dynamic>;
+              final companyData = corporateDataList[i];
+
+              final companyName = companyData['corporationName'];
+              final companyLogo = companyData['logoUrl'];
+
+              jobListWidgets.add(
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => JobDetailsPage(jobListing: jobListing),
+                      ),
                     );
-                  }
-
-                  if (companySnapshot.hasError) {
-                    return ListTile(
-                      title: Text(jobListing['jobTitle'] ?? ''),
-                      subtitle: Text(jobListing['jobType'] ?? ''),
-                      // You can add more details from the job listing here
-                      trailing: const Icon(Icons.error), // Show an error icon
-                    );
-                  }
-
-                  if (!companySnapshot.hasData) {
-                    return ListTile(
-                      title: Text(jobListing['jobTitle'] ?? ''),
-                      subtitle: Text(jobListing['jobType'] ?? ''),
-                      // You can add more details from the job listing here
-                      trailing: const Text('Company data not available'), // Show a message if no data is found
-                    );
-                  }
-
-                  final companyData = companySnapshot.data!.data() as Map<String, dynamic>;
-
-                  // Here, you can access the company name and logo from companyData
-                  final companyName = companyData['corporationName'];
-                  final companyLogo = companyData['logoUrl'];
-
-                  return ListTile(
+                  },
+                  child: ListTile(
                     title: Text(jobListing['jobTitle'] ?? ''),
                     subtitle: Text(jobListing['jobType'] ?? ''),
-                    // You can add more details from the job listing here
                     leading: Image.network(companyLogo), // Display company logo
                     trailing: Text('Posted by: $companyName'), // Display company name
-                  );
-                },
-              ),
+                  ),
+                ),
+              );
+            }
+
+            return ListView(
+              children: jobListWidgets,
             );
           },
         );
