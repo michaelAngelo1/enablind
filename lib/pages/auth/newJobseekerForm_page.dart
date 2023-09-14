@@ -1,16 +1,21 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:login_app/components/backgroundPage.dart';
+import 'package:login_app/components/buttons/yellowButton.dart';
+import 'package:login_app/components/formBox.dart';
+import 'package:login_app/pages/home/home_page.dart';
 import 'package:login_app/test/jobseeker/test_jobseeker_bottom_navbar.dart';
+import 'package:login_app/variables.dart';
 
-class JobseekerDataPage extends StatefulWidget {
-  const JobseekerDataPage({Key? key}) : super(key: key);
+class NewJobseekerForm extends StatefulWidget {
+  const NewJobseekerForm({Key? key}) : super(key: key);
 
   @override
-  JobseekerDataPageState createState() => JobseekerDataPageState();
+  NewJobseekerFormState createState() => NewJobseekerFormState();
 }
 
-class JobseekerDataPageState extends State<JobseekerDataPage> {
+class NewJobseekerFormState extends State<NewJobseekerForm> {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final FirebaseAuth auth = FirebaseAuth.instance;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -41,83 +46,108 @@ class JobseekerDataPageState extends State<JobseekerDataPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Jobseeker Data Page'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
+    return BackgroundTemplate(
+      title: 'Jobseeker Data Form',
+      child: Form(
+        key: _formKey,
+        child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              TextFormField(
-                decoration: const InputDecoration(labelText: 'Full Name'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your full name';
-                  }
-                  return null;
-                },
+              FormBox(
+                labelText: 'Full Name',
+                semanticText: 'Please enter your full name',
+                keyboardType: TextInputType.name,
                 onSaved: (value) {
                   fullName = value!;
                 },
               ),
-              TextFormField(
-                decoration: const InputDecoration(labelText: 'Phone Number'),
+              const SizedBox(height: 24),
+              FormBox(
+                labelText: 'Phone Number',
+                semanticText: 'Please enter your phone number',
                 keyboardType: TextInputType.phone,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your phone number';
-                  }
-                  return null;
-                },
                 onSaved: (value) {
                   phoneNumber = value!;
                 },
               ),
+              const SizedBox(height: 24),
               TextFormField(
                 controller: _dateOfBirthController,
+                style: TextStyle(color: Colors.white),
                 decoration: InputDecoration(
                   labelText: 'Date of Birth',
                   suffixIcon: IconButton(
                     onPressed: () {
                       _selectDate(context);
                     },
-                    icon: const Icon(Icons.calendar_today),
+                    icon: const Icon(
+                      Icons.calendar_today,
+                      color: accentColor,
+                    ),
+                  ),
+                  labelStyle: TextStyle(color: Colors.white),
+                  semanticCounterText: 'Input your date of birth',
+                  fillColor: Color.fromARGB(255, 74, 74, 75),
+                  filled: true,
+                  enabledBorder: const OutlineInputBorder(
+                    borderSide:
+                        BorderSide(color: Color.fromARGB(255, 74, 74, 75)),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(12.0),
+                    ),
+                  ),
+                  focusedBorder: const OutlineInputBorder(
+                    borderSide:
+                        BorderSide(color: Color.fromARGB(255, 62, 67, 74)),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(12.0),
+                    ),
                   ),
                 ),
                 readOnly: true,
               ),
+              const SizedBox(height: 4),
               Row(
                 children: <Widget>[
-                  const Text('Gender: '),
+                  const Text(
+                    'Gender: ',
+                    style: TextStyle(color: Colors.white),
+                  ),
                   Radio<String>(
                     value: 'Male',
                     groupValue: gender,
+                    fillColor: MaterialStateProperty.all<Color>(Colors.white),
                     onChanged: (value) {
                       setState(() {
                         gender = value!;
                       });
                     },
                   ),
-                  const Text('Male'),
+                  const Text(
+                    'Male',
+                    style: TextStyle(color: Colors.white),
+                  ),
                   Radio<String>(
                     value: 'Female',
                     groupValue: gender,
+                    fillColor: MaterialStateProperty.all<Color>(Colors.white),
                     onChanged: (value) {
                       setState(() {
                         gender = value!;
                       });
                     },
                   ),
-                  const Text('Female'),
+                  const Text(
+                    'Female',
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ],
               ),
-              ElevatedButton(
+              const SizedBox(height: 24),
+              YellowButton(
+                label: 'Submit',
                 onPressed: _submitForm,
-                child: const Text('Submit'),
               ),
             ],
           ),
@@ -155,8 +185,8 @@ class JobseekerDataPageState extends State<JobseekerDataPage> {
             .doc(uid)
             .set(jobseekerRegistrationData);
 
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const JobseekerNavbar()));
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => HomePage()));
       } catch (e) {
         print('DISINIIIIIIII Error submitting data: $e');
         // Handle the error as needed

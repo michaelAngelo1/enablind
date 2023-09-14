@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:login_app/components/backgroundPage.dart';
+// import 'package:login_app/components/backgroundPage.dart';
 import 'package:login_app/components/buttons/yellowButton.dart';
 import 'package:login_app/firebase/cloud_storage.dart';
 import 'package:login_app/firebase/db_instance.dart';
 import 'package:login_app/pages/jobseeker/editProfileSeeker_page.dart';
-import 'package:login_app/test/auth/test_login_page.dart';
+// import 'package:login_app/test/auth/test_login_page.dart';
 import 'package:login_app/variables.dart';
 
 class ProfileSeeker extends StatefulWidget {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:login_app/components/jobs/jobCardComponent.dart';
+import 'package:login_app/firebase/db_instance.dart';
 import 'package:login_app/models/joblisting.dart';
 import 'package:login_app/variables.dart';
 
@@ -19,38 +20,6 @@ class ExploreSeeker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    // DUMMY DATA
-    if(jobList.isEmpty) {
-      jobList.add(
-        Joblisting(
-          jobTitle: 'Software Developer',
-          jobDescription: 'This is a job description.',
-          jobQualifications: 'Bachelor\'s degree in Computer Science',
-          jobType: 'Part-time',
-          jobSalary: 'IDR 4.000.000 - IDR 5.000.000',
-          corpLogo:
-              'https://firebasestorage.googleapis.com/v0/b/enablind-db.appspot.com/o/ptabc.jpg?alt=media&token=eba597b4-109c-438d-a3f7-322712e27e03',
-          corpName: 'ABC Corporation',
-          jobListingCloseDate: DateTime(2023, 10, 8),
-        ),
-      );
-      jobList.add(
-        Joblisting(
-          jobTitle: 'Hardware Developer',
-          jobDescription: 'This is a job description.',
-          jobQualifications: 'Bachelor\'s degree in Computer Engineering',
-          jobType: 'Full-time',
-          jobSalary: 'IDR 5.000.000 - IDR 8.000.000',
-          corpLogo:
-              'https://firebasestorage.googleapis.com/v0/b/enablind-db.appspot.com/o/ptabc.jpg?alt=media&token=eba597b4-109c-438d-a3f7-322712e27e03',
-          corpName: 'DEF Corporation',
-          jobListingCloseDate: DateTime(2023, 10, 8),
-        ),
-      );
-    }
-    
-
     return Container(
       decoration: const BoxDecoration(
         color: titleJobCardColor,
@@ -93,13 +62,71 @@ class ExploreSeeker extends StatelessWidget {
               const SizedBox(height: 16.0),
 
               // Card Job List
-              for (var job in jobList)
-                Column(
-                  children: [
-                    JobCardComponent(job: job),
-                    const SizedBox(height: 16.0),
-                  ],
-                ),
+              FutureBuilder(
+                future: fsdb.collection('/Jobs/').get(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                    return const Center(child: Text('No data available'));
+                  } else {
+                    return Column(
+                      children: [
+                        for (var document in snapshot.data!.docs)
+                          FutureBuilder(
+                            future: fsdb
+                                .collection('/Users/Role/Corporations/')
+                                .doc(document['jobCompany'])
+                                .get(),
+                            builder: (context, corpSnapshot) {
+                              if (corpSnapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const Center();
+                              } else if (corpSnapshot.hasError) {
+                                return Center(
+                                    child:
+                                        Text('Error: ${corpSnapshot.error}'));
+                              } else if (!corpSnapshot.hasData) {
+                                return const Center(
+                                    child:
+                                        Text('No corporation data available'));
+                              } else {
+                                final corpData = corpSnapshot.data!.data()
+                                    as Map<String, dynamic>;
+                                final jobData =
+                                    document.data() as Map<String, dynamic>;
+
+                                final job = Joblisting(
+                                  jobTitle: jobData['jobTitle'],
+                                  jobDescription: jobData['jobDescription'],
+                                  jobQualifications:
+                                      jobData['jobQualifications'],
+                                  jobType: jobData['jobType'],
+                                  jobSalary: jobData['jobSalary'],
+                                  jobListingCloseDate:
+                                      jobData['jobListingCloseDate'],
+                                  corpName: corpData['corporationName'],
+                                  corpLogo: corpData['logoUrl'],
+                                );
+
+                                return Column(
+                                  children: [
+                                    JobCardComponent(
+                                      job: job,
+                                    ),
+                                    const SizedBox(height: 16.0),
+                                  ],
+                                );
+                              }
+                            },
+                          ),
+                      ],
+                    );
+                  }
+                },
+              )
             ],
           ),
         ),
