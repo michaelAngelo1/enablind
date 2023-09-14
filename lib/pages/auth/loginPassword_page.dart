@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:login_app/components/buttons/yellowButton.dart';
 import 'package:login_app/pages/auth/choose_page.dart';
+import 'package:login_app/pages/home/home_page.dart';
 import 'package:login_app/test/auth/test_register_page.dart';
 import 'package:login_app/test/auth/test_register_select_page.dart';
 import 'package:login_app/test/corporate/test_corporate_bottom_navbar.dart';
@@ -212,8 +213,12 @@ class LoginPasswordPageState extends State<LoginPasswordPage> {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                  builder: (context) =>
-                      const JobseekerNavbar()), // Replace with your jobseeker home page
+                  builder: (context) => WillPopScope(
+                      onWillPop: () async {
+                        return false;
+                      },
+                      child:
+                          HomePage())), // Replace with your jobseeker home page
             );
           } else if (userType == 'corporate') {
             Navigator.pushReplacement(

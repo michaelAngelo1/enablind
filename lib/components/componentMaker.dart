@@ -41,18 +41,6 @@ class _ComponentTestState extends State<ComponentTest> {
     });
   }
 
-  Joblisting myJob = Joblisting(
-    jobTitle: 'Software Developer',
-    jobDescription: 'This is a job description.',
-    jobQualifications: 'Bachelor\'s degree in Computer Science',
-    jobType: 'Part-time',
-    jobSalary: 'IDR 4.000.000 - IDR 5.000.000',
-    corpLogo:
-        'https://firebasestorage.googleapis.com/v0/b/enablind-db.appspot.com/o/ptabc.jpg?alt=media&token=eba597b4-109c-438d-a3f7-322712e27e03',
-    corpName: 'ABC Corporation',
-    jobListingCloseDate: DateTime(2023, 10, 8),
-  );
-
   @override
   Widget build(BuildContext context) {
     return BackgroundTemplate(
@@ -76,7 +64,6 @@ class _ComponentTestState extends State<ComponentTest> {
                   validate: coverValidate,
                   isMultiline: true,
                 ),
-                UpdatesCard(job: myJob, newUpdate: false),
                 const SizedBox(height: 20),
               ],
             ),

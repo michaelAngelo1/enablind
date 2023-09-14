@@ -63,8 +63,9 @@ class LoginEmailPageState extends State<LoginEmailPage> {
                 style: TextStyle(color: Colors.white),
                 keyboardType: TextInputType.emailAddress,
                 decoration: const InputDecoration(
-                  labelText: 'Email',
                   labelStyle: TextStyle(color: Colors.white),
+                  hintText: 'Email',
+                  hintStyle: TextStyle(color: Colors.white),
                   semanticCounterText: 'Please enter your email',
                   fillColor: Color.fromARGB(255, 74, 74, 75),
                   filled: true,
