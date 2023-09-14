@@ -13,7 +13,7 @@ class BackgroundTemplate extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: bgColor,
+        backgroundColor: titleJobCardColor,
         elevation: 0,
         title: Center(
           child: Text(
@@ -24,7 +24,7 @@ class BackgroundTemplate extends StatelessWidget {
           ),
         ),
       ),
-      backgroundColor: bgColor,
+      backgroundColor: titleJobCardColor,
       body: Padding(
         //container luar
         padding: const EdgeInsets.only(
