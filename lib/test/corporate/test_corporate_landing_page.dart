@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:login_app/db_instance.dart';
 import 'package:login_app/test/auth/test_login_page.dart';
-import 'package:login_app/test/corporate/test_corporate_landing_page_tabs/test_corporate_jobs_application/test_corporate_job_applicants.dart';
+import 'package:login_app/test/corporate/test_corporate_landing_page_tabs/test_corporate_applicants/test_corporate_applicants_list.dart';
 import 'package:login_app/test/corporate/test_corporate_landing_page_tabs/test_corporate_past_jobs.dart';
 import 'test_corporate_landing_page_tabs/test_corporate_active_jobs/test_corporate_active_jobs.dart';
 
@@ -35,11 +35,11 @@ class CorporateLandingPage extends StatelessWidget {
             ],
           ),
         ),
-        body: TabBarView(
+        body: const TabBarView(
           children: [
-            const CorporateJobListPage(),
-            ApplicantsPage(),
-            const PastJobsPage(),
+            CorporateJobListPage(),
+            CorporateJobApplications(),
+            PastJobsPage(),
           ],
         ),
       ),
