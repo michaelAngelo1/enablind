@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:login_app/test/jobseeker/test_jobseeker_apply/test_cv_maker.dart';
 
 class JobDetailsJobseeker extends StatefulWidget {
   final Map<String, dynamic> jobListing;
@@ -74,6 +75,17 @@ class JobDetailsJobseekerState extends State<JobDetailsJobseeker> {
                   Text('Job Type: ${widget.jobListing['jobType']}'),
                   Text('Salary: Rp${widget.jobListing['jobSalary']}'),
                   // Add more job details here
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CvTemplate(jobListing: widget.jobListing),
+                        ),
+                      );
+                    }, 
+                    child: const Text("Apply Now")
+                  ),
                 ],
               ),
             ),

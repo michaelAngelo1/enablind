@@ -87,16 +87,16 @@ class _HomePageState extends State<HomePage> {
         ExploreSeeker(screenHeight: screenHeight, screenWidth: screenWidth, jobList: jobList),
 
         // Update Page
-        UpdatesSeeker(),
+        const UpdatesSeeker(),
 
         // Saved Jobs
-        SavedSeeker(),
+        const SavedSeeker(),
 
         // Profile
         Container(
           width: screenWidth,
           height: screenHeight,
-          decoration: BoxDecoration(color: Colors.green)
+          decoration: const BoxDecoration(color: Colors.green)
         ),
 
         // END EDITABLE AREA
@@ -219,7 +219,7 @@ class exploreSeeker extends StatelessWidget {
                       style: GoogleFonts.plusJakartaSans(
                         fontSize: 14.0,
                         fontWeight: FontWeight.w600,
-                        color: Color(0xffb404040),
+                        color: const Color(0xffb404040),
                       ))
                 ],
               ),
