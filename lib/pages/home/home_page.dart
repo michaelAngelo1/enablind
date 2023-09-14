@@ -1,12 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:login_app/components/componentMaker.dart';
-import 'package:login_app/components/jobs/jobCardComponent.dart';
+// import 'package:login_app/components/componentMaker.dart';
+// import 'package:login_app/components/jobs/jobCardComponent.dart';
 import 'package:login_app/firebase/db_instance.dart';
 import 'package:login_app/models/joblisting.dart';
+import 'package:login_app/pages/auth/welcome_page.dart';
 import 'package:login_app/pages/home/categories/savedSeeker_page.dart';
 import 'package:login_app/pages/home/categories/updatesSeeker_page.dart';
-import 'package:login_app/test/auth/test_login_page.dart';
+// import 'package:login_app/test/auth/test_login_page.dart';
 import 'package:login_app/variables.dart';
 
 import 'categories/exploreSeeker_page.dart';
@@ -25,6 +27,23 @@ class _HomePageState extends State<HomePage> {
 
   // user object
   final user = auth.currentUser!;
+  String userFullName = '';
+
+  Future<String> fetchUserFullName(String uid) async {
+    try {
+      DocumentSnapshot userSnapshot =
+          await fsdb.doc('/Users/Role/Jobseekers/$uid').get();
+
+      if (userSnapshot.exists) {
+        return userSnapshot['fullName'] ?? '';
+      } else {
+        return '';
+      }
+    } catch (e) {
+      print('Error fetching user full name: $e');
+      return '';
+    }
+  }
 
   void signUserOut() {
     auth.signOut();
@@ -34,14 +53,18 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    //data
-    
-
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
+    // fetchUserFullName(user.uid).then((fullName) {
+    //   setState(() {
+    //     userFullName = fullName;
+    //   });
+    // });
+
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         toolbarHeight: 80,
         backgroundColor: Colors.black,
         elevation: 0,
@@ -53,12 +76,12 @@ class _HomePageState extends State<HomePage> {
               style: GoogleFonts.plusJakartaSans(
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
-                  color: titleContentColor),
+                  color: navbarIconColor),
             ),
             Text(
               user.email!,
               style: GoogleFonts.plusJakartaSans(
-                  fontSize: 18,
+                  fontSize: 20,
                   fontWeight: FontWeight.w600,
                   color: titleContentColor),
             ),
@@ -66,21 +89,21 @@ class _HomePageState extends State<HomePage> {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.star),
-            tooltip: 'goto component maker',
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ComponentTest()),
-              );
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.exit_to_app),
+            icon: const Icon(
+              Icons.exit_to_app,
+              color: navbarIconColor,
+            ),
             onPressed: () async {
               await auth.signOut();
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => const LoginPage()));
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => WillPopScope(
+                          onWillPop: () async {
+                            return false;
+                          },
+                          child: const WelcomePage(),
+              )));
             },
           ),
         ],

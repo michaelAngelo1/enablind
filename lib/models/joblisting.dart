@@ -1,25 +1,27 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Joblisting {
   String jobTitle;
   String jobDescription;
-  String jobQualifications;
+  List<dynamic> jobQualifications;
   String jobType;
-  String jobSalary;
+  int jobSalary;
   String corpLogo;
   String corpName;
   bool isFreelance;
-  DateTime jobListingPublishDate = DateTime.now();
-  DateTime? jobListingCloseDate;
+  Timestamp jobListingPublishDate = Timestamp.now();
+  Timestamp? jobListingCloseDate;
 
   // Named constructor with default values
   Joblisting({
     this.jobTitle = '',
     this.jobDescription = '',
-    this.jobQualifications = '',
+    this.jobQualifications = const [],
     this.jobType = '',
-    this.jobSalary = '',
+    this.jobSalary = 0,
     this.corpLogo = '',
     this.corpName = '',
     this.isFreelance = false,
-    DateTime? jobListingCloseDate,
+    Timestamp? jobListingCloseDate,
   }) : jobListingCloseDate = null;
 }
