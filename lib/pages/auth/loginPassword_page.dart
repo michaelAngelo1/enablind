@@ -3,23 +3,29 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:login_app/components/buttons/yellowButton.dart';
+import 'package:login_app/pages/auth/choose_page.dart';
 import 'package:login_app/test/auth/test_register_page.dart';
 import 'package:login_app/test/auth/test_register_select_page.dart';
 import 'package:login_app/test/corporate/test_corporate_bottom_navbar.dart';
 import 'package:login_app/test/jobseeker/test_jobseeker_bottom_navbar.dart';
+import 'package:login_app/variables.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class LoginPasswordPage extends StatefulWidget {
+  final String emailParam;
+  const LoginPasswordPage({
+    required this.emailParam,
+    super.key,
+  });
 
   @override
-  LoginPageState createState() => LoginPageState();
+  LoginPasswordPageState createState() => LoginPasswordPageState();
 }
 
-class LoginPageState extends State<LoginPage> {
+class LoginPasswordPageState extends State<LoginPasswordPage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isLoading = false;
 
@@ -74,62 +80,93 @@ class LoginPageState extends State<LoginPage> {
     return false; // Default to false in case of any error
   }
 
+  bool _isPasswordVisible = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login'),
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        backgroundColor: bgColor,
+        elevation: 0,
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                TextFormField(
-                  controller: _emailController,
-                  decoration: const InputDecoration(labelText: 'Email'),
-                  keyboardType: TextInputType.emailAddress,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter your email';
-                    }
-                    return null;
-                  },
+      backgroundColor: bgColor,
+      body: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              const SizedBox(height: 30),
+              const Text(
+                'Enter your password',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
                 ),
-                TextFormField(
-                  controller: _passwordController,
-                  decoration: const InputDecoration(labelText: 'Password'),
-                  obscureText: true,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter your password';
-                    }
-                    return null;
-                  },
+              ),
+              const SizedBox(height: 25),
+              TextFormField(
+                controller: _passwordController,
+                style: TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                  labelText: 'Password',
+                  labelStyle: TextStyle(color: Colors.white),
+                  semanticCounterText: 'Please enter your password',
+                  fillColor: Color.fromARGB(255, 74, 74, 75),
+                  filled: true,
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _isPasswordVisible
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _isPasswordVisible = !_isPasswordVisible;
+                      });
+                    },
+                  ),
+                  enabledBorder: const OutlineInputBorder(
+                    borderSide:
+                        BorderSide(color: Color.fromARGB(255, 74, 74, 75)),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(12.0),
+                    ),
+                  ),
+                  focusedBorder: const OutlineInputBorder(
+                    borderSide:
+                        BorderSide(color: Color.fromARGB(255, 62, 67, 74)),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(12.0),
+                    ),
+                  ),
                 ),
-                const SizedBox(height: 20.0),
-                ElevatedButton(
-                  onPressed: _isLoading ? null : _signIn,
-                  child: _isLoading
-                      ? const CircularProgressIndicator()
-                      : const Text('Log In'),
-                ),
-                const SizedBox(height: 20.0),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const RegisterPage()),
-                    );
-                  },
-                  child: const Text('Register'),
-                ),
-              ],
-            ),
+                obscureText: !_isPasswordVisible,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter your password';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 20.0),
+              YellowButton(
+                onPressed: _isLoading ? null : _signIn,
+                label: _isLoading ? 'loading..' : 'Log In',
+              ),
+            ],
           ),
         ),
       ),
@@ -137,14 +174,18 @@ class LoginPageState extends State<LoginPage> {
   }
 
   void _signIn() async {
+    print('masuk sign in');
     if (_formKey.currentState!.validate()) {
       setState(() {
         _isLoading = true;
       });
 
       try {
-        final String email = _emailController.text.trim();
+        final String email = widget.emailParam;
         final String password = _passwordController.text.trim();
+
+        print(email);
+        print(password);
 
         final authResult = await _auth.signInWithEmailAndPassword(
           email: email,
@@ -192,7 +233,7 @@ class LoginPageState extends State<LoginPage> {
             context,
             MaterialPageRoute(
                 builder: (context) =>
-                    const SelectPage()), // go to select role & input initial data
+                    const ChoosePage()), // go to select role & input initial data
           );
         }
       } catch (e) {
@@ -203,6 +244,19 @@ class LoginPageState extends State<LoginPage> {
         // Handle login errors (e.g., invalid credentials)
         print('Login error: $e');
         // You can display a snackbar or error message to the user here
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Semantics(
+              label: 'Wrong password',
+              child: Text(
+                'Wrong password',
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+            backgroundColor: accentColor,
+            duration: Duration(seconds: 3),
+          ),
+        );
       }
     }
   }
