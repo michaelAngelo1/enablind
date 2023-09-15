@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:login_app/components/jobs/jobCardComponent.dart';
-import 'package:login_app/db_instance.dart';
+import 'package:login_app/firebase/db_instance.dart';
 import 'package:login_app/models/joblisting.dart';
 import 'package:login_app/variables.dart';
 
@@ -22,7 +22,7 @@ class ExploreSeeker extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
-        color: topbarColor,
+        color: titleJobCardColor,
       ),
       height: screenHeight,
       width: screenWidth,

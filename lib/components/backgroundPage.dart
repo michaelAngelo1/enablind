@@ -29,7 +29,7 @@ class BackgroundTemplate extends StatelessWidget {
         ),
         actions: actions,
       ),
-      backgroundColor: bgColor,
+      backgroundColor: titleJobCardColor,
       body: Padding(
         //container luar
         padding: const EdgeInsets.only(

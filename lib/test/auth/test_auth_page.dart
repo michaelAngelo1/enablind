@@ -3,13 +3,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:login_app/db_instance.dart';
-import 'package:login_app/pages/auth/loginEmail_page.dart';
+import 'package:login_app/firebase/db_instance.dart';
 import 'package:login_app/pages/auth/welcome_page.dart';
 import 'package:login_app/pages/home/home_page.dart';
 import 'package:login_app/test/corporate/test_corporate_bottom_navbar.dart';
-import 'package:login_app/test/jobseeker/test_jobseeker_bottom_navbar.dart';
-import 'test_login_page.dart';
 
 class AuthPage extends StatelessWidget {
   const AuthPage({super.key});

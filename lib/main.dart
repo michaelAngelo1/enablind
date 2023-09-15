@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:login_app/pages/auth/welcome_page.dart';
+// import 'package:login_app/pages/auth/welcome_page.dart';
 import 'package:login_app/test/auth/test_auth_page.dart';
 import 'package:login_app/variables.dart';
-import 'firebase_options.dart';
+import 'firebase/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
