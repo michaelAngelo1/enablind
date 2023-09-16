@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:login_app/components/backgroundPage.dart';
 import 'package:login_app/components/buttons/yellowButton.dart';
 import 'package:login_app/components/formBox.dart';
+import 'package:login_app/pages/corporate/corpHome_page.dart';
 import 'package:login_app/test/corporate/test_corporate_bottom_navbar.dart';
 import 'package:login_app/variables.dart';
 
@@ -149,8 +150,8 @@ class NewCorporateFormState extends State<NewCorporateForm> {
 
         // Navigate to the desired screen after data submission
         // For example, you can navigate to the home page
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const CorporateNavbar()));
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => CorpHomePage()));
       } catch (e) {
         print('Error submitting data: $e');
         // Handle the error as needed

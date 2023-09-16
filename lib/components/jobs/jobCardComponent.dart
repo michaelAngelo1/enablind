@@ -7,10 +7,12 @@ import 'package:login_app/variables.dart';
 class JobCardComponent extends StatefulWidget {
   final Joblisting job;
   final bool enableBookmark;
+  final bool isClosed;
   const JobCardComponent({
     super.key,
     required this.job,
     this.enableBookmark = true,
+    this.isClosed = false,
   });
 
   @override
@@ -31,14 +33,17 @@ class _JobCardComponentState extends State<JobCardComponent> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => JobDetailSeeker(job: widget.job)),
+                  builder: (context) => JobDetailSeeker(
+                        job: widget.job,
+                        isJobseeker: widget.enableBookmark,
+                        isClosed: widget.isClosed,
+                      )),
             );
           },
           child: Container(
               width: widget.enableBookmark
                   ? screenWidth - 28 - 70
                   : screenWidth - 28,
-              height: 120,
               padding: const EdgeInsets.only(
                 top: 15.0,
                 bottom: 12.0,
@@ -47,7 +52,7 @@ class _JobCardComponentState extends State<JobCardComponent> {
               ),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
-                color: accentColor,
+                color: widget.isClosed ? disabledNavbar : accentColor,
                 boxShadow: const [
                   BoxShadow(
                     color: Colors.black, // Shadow color
@@ -59,6 +64,19 @@ class _JobCardComponentState extends State<JobCardComponent> {
               ),
               child: Column(
                 children: [
+                  if (widget.isClosed)
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Container(
+                        padding: const EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: accentColor,
+                        ),
+                        child: Text('Vacancy closed'),
+                      ),
+                    ),
+                  SizedBox(height: 5),
                   Row(
                     children: [
                       ClipRRect(

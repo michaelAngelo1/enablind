@@ -51,8 +51,8 @@ class _CorporateNavbarState extends State<CorporateNavbar> {
             ),
           );
         },
-        child: const Icon(Icons.add),
         tooltip: "Create Job Listing",
+        child: const Icon(Icons.add),
       )
     );
   }
