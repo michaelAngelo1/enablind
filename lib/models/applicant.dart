@@ -19,7 +19,7 @@ class Applicant {
     this.role = '',
     this.address = '',
     this.summary = '',
-    this.status = -1,
+    this.status = 1,
     this.education = const [],
     this.experience = const [],
     this.profilePicture = '',

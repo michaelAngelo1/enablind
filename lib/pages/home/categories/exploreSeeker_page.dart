@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:login_app/components/jobs/jobCardComponent.dart';
+import 'package:login_app/components/newJobCard.dart';
 import 'package:login_app/firebase/db_instance.dart';
 import 'package:login_app/models/joblisting.dart';
 import 'package:login_app/variables.dart';
@@ -98,23 +99,12 @@ class ExploreSeeker extends StatelessWidget {
                                 final jobData =
                                     document.data() as Map<String, dynamic>;
 
-                                final job = Joblisting(
-                                  jobTitle: jobData['jobTitle'],
-                                  jobDescription: jobData['jobDescription'],
-                                  jobQualifications:
-                                      jobData['jobQualifications'],
-                                  jobType: jobData['jobType'],
-                                  jobSalary: jobData['jobSalary'],
-                                  jobListingCloseDate:
-                                      jobData['jobListingCloseDate'],
-                                  corpName: corpData['corporationName'],
-                                  corpLogo: corpData['logoUrl'],
-                                );
-
                                 return Column(
                                   children: [
-                                    JobCardComponent(
-                                      job: job,
+                                    NewJobCard(
+                                      job: jobData,
+                                      companyLogo: corpData['logoUrl'],
+                                      companyName: corpData['corporationName'],
                                     ),
                                     const SizedBox(height: 16.0),
                                   ],

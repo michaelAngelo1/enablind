@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:login_app/pages/corporate/active_jobs.dart';
 import 'package:login_app/pages/corporate/archivedJobs_page.dart';
+import 'package:login_app/pages/corporate/gabung/dashboard/fix_activeJobs.dart';
+import 'package:login_app/pages/corporate/gabung/dashboard/fix_applicationTab.dart';
+import 'package:login_app/pages/corporate/gabung/dashboard/fix_archivedJobs.dart';
 import 'package:login_app/pages/corporate/jobApplications_page.dart';
+import 'package:login_app/test/corporate/test_corporate_landing_page_tabs/test_corporate_active_jobs/test_corporate_active_jobs.dart';
+import 'package:login_app/test/corporate/test_corporate_landing_page_tabs/test_corporate_applicants/test_corporate_applicants_list.dart';
+import 'package:login_app/test/corporate/test_corporate_landing_page_tabs/test_corporate_past_jobs.dart';
 import 'package:login_app/variables.dart';
 
 class DashboardPage extends StatefulWidget {
@@ -22,18 +28,26 @@ class _DashboardPageState extends State<DashboardPage> {
   }
 
   final List<Widget> _pages = [
-    const JobApplicationPage(),
-    const ActiveJobs(),
-    const ArchievedPage(),
+    // CorpActiveJobs(),
+    // CorporateJobListPage(),
+    CorpActiveJobs(),
+    CorpApplicationsTab(),
+    ArchivedJobsTab(),
+    // CorpApplicationsTab(),
+    // ArchivedJobsTab(),
+    // CorporateJobListPage(),
+    // CorporateJobApplications(),
+    // PastJobsPage(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
+        SizedBox(height: 30),
         Container(
           decoration: const BoxDecoration(
-            color: disabledNavbar,
+            color: Color.fromARGB(255, 74, 74, 75),
             borderRadius: BorderRadius.all(
               Radius.circular(12),
             ),
@@ -52,7 +66,8 @@ class _DashboardPageState extends State<DashboardPage> {
                   style: ButtonStyle(
                     backgroundColor: _checkSelected(0)
                         ? MaterialStateProperty.all<Color>(accentColor)
-                        : MaterialStateProperty.all<Color>(disabledNavbar),
+                        : MaterialStateProperty.all<Color>(
+                            Color.fromARGB(255, 74, 74, 75)),
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius:
@@ -62,7 +77,7 @@ class _DashboardPageState extends State<DashboardPage> {
                   ),
                   child: Center(
                     child: Text(
-                      "Job Applicants",
+                      "Active Jobs",
                       style: TextStyle(
                           color:
                               _checkSelected(0) ? Colors.black : Colors.white,
@@ -84,7 +99,8 @@ class _DashboardPageState extends State<DashboardPage> {
                   style: ButtonStyle(
                     backgroundColor: _checkSelected(1)
                         ? MaterialStateProperty.all<Color>(accentColor)
-                        : MaterialStateProperty.all<Color>(disabledNavbar),
+                        : MaterialStateProperty.all<Color>(
+                            Color.fromARGB(255, 74, 74, 75)),
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius:
@@ -94,7 +110,7 @@ class _DashboardPageState extends State<DashboardPage> {
                   ),
                   child: Center(
                     child: Text(
-                      "Active Jobs",
+                      "Applicants",
                       style: TextStyle(
                           color:
                               _checkSelected(1) ? Colors.black : Colors.white,
@@ -116,7 +132,8 @@ class _DashboardPageState extends State<DashboardPage> {
                   style: ButtonStyle(
                     backgroundColor: _checkSelected(2)
                         ? MaterialStateProperty.all<Color>(accentColor)
-                        : MaterialStateProperty.all<Color>(disabledNavbar),
+                        : MaterialStateProperty.all<Color>(
+                            Color.fromARGB(255, 74, 74, 75)),
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius:

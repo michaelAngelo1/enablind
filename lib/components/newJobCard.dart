@@ -2,24 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:login_app/models/joblisting.dart';
 import 'package:login_app/pages/jobseeker/jobDetailSeeker_page.dart';
+import 'package:login_app/pages/newJobDetail_page.dart';
 import 'package:login_app/variables.dart';
 
-class JobCardComponent extends StatefulWidget {
-  final Joblisting job;
+class NewJobCard extends StatefulWidget {
+  final Map<String, dynamic> job;
   final bool enableBookmark;
   final bool isClosed;
-  const JobCardComponent({
+  final String companyName;
+  final String companyLogo;
+  const NewJobCard({
     super.key,
     required this.job,
+    required this.companyName,
+    required this.companyLogo,
     this.enableBookmark = true,
     this.isClosed = false,
   });
 
   @override
-  State<JobCardComponent> createState() => _JobCardComponentState();
+  State<NewJobCard> createState() => _NewJobCardState();
 }
 
-class _JobCardComponentState extends State<JobCardComponent> {
+class _NewJobCardState extends State<NewJobCard> {
   bool isBookmarked = false;
 
   @override
@@ -29,12 +34,12 @@ class _JobCardComponentState extends State<JobCardComponent> {
       children: [
         GestureDetector(
           onTap: () {
-            // Navigate to the destination page
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => JobDetailSeeker(
+                  builder: (context) => NewJobDetailPage(
                         job: widget.job,
+                        corpName: widget.companyName,
                         isJobseeker: widget.enableBookmark,
                         isClosed: widget.isClosed,
                       )),
@@ -87,7 +92,7 @@ class _JobCardComponentState extends State<JobCardComponent> {
                           width: 50,
                           height: 50,
                           child: Image.network(
-                            widget.job.corpLogo,
+                            widget.companyLogo,
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -97,14 +102,14 @@ class _JobCardComponentState extends State<JobCardComponent> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            widget.job.corpName,
+                            widget.companyName,
                             style: GoogleFonts.plusJakartaSans(
                               color: titleJobCardColor,
                               fontSize: 16,
                             ),
                           ),
                           Text(
-                            widget.job.jobTitle,
+                            widget.job['jobTitle'],
                             style: GoogleFonts.plusJakartaSans(
                                 color: titleJobCardColor,
                                 fontSize: 18,
@@ -125,7 +130,7 @@ class _JobCardComponentState extends State<JobCardComponent> {
                       ),
                       child: Center(
                         child: Text(
-                          widget.job.jobType,
+                          widget.job['jobType'],
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 14,

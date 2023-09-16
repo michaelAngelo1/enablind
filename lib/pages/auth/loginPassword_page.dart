@@ -10,6 +10,7 @@ import 'package:login_app/pages/home/home_page.dart';
 import 'package:login_app/test/auth/test_register_page.dart';
 import 'package:login_app/test/auth/test_register_select_page.dart';
 import 'package:login_app/test/corporate/test_corporate_bottom_navbar.dart';
+import 'package:login_app/test/corporate/test_corporate_landing_page.dart';
 import 'package:login_app/test/jobseeker/test_jobseeker_bottom_navbar.dart';
 import 'package:login_app/variables.dart';
 
@@ -225,8 +226,7 @@ class LoginPasswordPageState extends State<LoginPasswordPage> {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                  builder: (context) =>
-                      CorpHomePage()), // Replace with your corporate home page
+                  builder: (context) => CorpHomePage()), // corphomepage
             );
           } else {
             print("Unknown user type");
