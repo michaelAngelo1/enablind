@@ -1,23 +1,15 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:login_app/components/componentMaker.dart';
-import 'package:login_app/pages/auth/loginEmail_page.dart';
-import 'package:login_app/pages/auth/welcome_page.dart';
-import 'package:login_app/test/auth/test_login_page.dart';
-import 'package:login_app/test/jobseeker/test_jobseeker_job_details.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'test_corporate_job_details.dart';
 
-class JobseekerLandingPage extends StatefulWidget {
-
-
-  const JobseekerLandingPage({super.key});
+class CorporateJobListPage extends StatefulWidget {
+  const CorporateJobListPage({super.key});
 
   @override
-  State<JobseekerLandingPage> createState() => _JobseekerLandingPageState();
+  State<CorporateJobListPage> createState() => _CorporateJobListPageState();
 }
 
-class _JobseekerLandingPageState extends State<JobseekerLandingPage> {
-
+class _CorporateJobListPageState extends State<CorporateJobListPage> {
   Future<List<Map<String, dynamic>>> _fetchCorporateDataForJobListings(
       List<QueryDocumentSnapshot<Map<String, dynamic>>> jobListings) async {
     final List<Future<DocumentSnapshot<Map<String, dynamic>>>> corporateDataFutures = [];
@@ -34,23 +26,7 @@ class _JobseekerLandingPageState extends State<JobseekerLandingPage> {
 
   @override
   Widget build(BuildContext context) {
-    final FirebaseAuth auth = FirebaseAuth.instance;
-
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Your App Name'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.exit_to_app),
-            onPressed: () async {
-              await auth.signOut();
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => const WelcomePage()));
-            },
-          ),
-        ],
-      ),
-      body: StreamBuilder(
+    return StreamBuilder(
       stream: FirebaseFirestore.instance.collection('Jobs').snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
@@ -104,7 +80,7 @@ class _JobseekerLandingPageState extends State<JobseekerLandingPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => JobDetailsJobseeker(jobListing: jobListing),
+                        builder: (context) => JobDetailsPage(jobListing: jobListing),
                       ),
                     );
                   },
@@ -124,6 +100,6 @@ class _JobseekerLandingPageState extends State<JobseekerLandingPage> {
           },
         );
       },
-    ));
+    );
   }
 }

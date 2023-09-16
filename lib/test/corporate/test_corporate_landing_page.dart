@@ -3,19 +3,22 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:login_app/pages/auth/loginEmail_page.dart';
 import 'package:login_app/pages/auth/welcome_page.dart';
 import 'package:login_app/test/auth/test_login_page.dart';
+import 'package:login_app/test/corporate/test_corporate_landing_page_tabs/test_corporate_applicants/test_corporate_applicants_list.dart';
+import 'package:login_app/test/corporate/test_corporate_landing_page_tabs/test_corporate_past_jobs.dart';
+import 'test_corporate_landing_page_tabs/test_corporate_active_jobs/test_corporate_active_jobs.dart';
 
 class CorporateLandingPage extends StatelessWidget {
   const CorporateLandingPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final FirebaseAuth auth = FirebaseAuth.instance;
-
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Your App Name'),
-        actions: [
-          IconButton(
+    return DefaultTabController(
+      length: 3, // Number of tabs
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Tab Bar Example'),
+          actions: [
+            IconButton(
             icon: const Icon(Icons.exit_to_app),
             onPressed: () async {
               await auth.signOut();
@@ -23,10 +26,22 @@ class CorporateLandingPage extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => const WelcomePage()));
             },
           ),
-        ],
-      ),
-      body: const Center(
-        child: Text('Welcome to Corporate'),
+          ],
+          bottom: const TabBar(
+            tabs: [
+              Tab(text: 'Active Jobs'),
+              Tab(text: 'Applicants'),
+              Tab(text: 'Past Jobs'),
+            ],
+          ),
+        ),
+        body: const TabBarView(
+          children: [
+            CorporateJobListPage(),
+            CorporateJobApplications(),
+            PastJobsPage(),
+          ],
+        ),
       ),
     );
   }
