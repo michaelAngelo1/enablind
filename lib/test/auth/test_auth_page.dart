@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:login_app/firebase/db_instance.dart';
 import 'package:login_app/pages/auth/welcome_page.dart';
+import 'package:login_app/pages/corporate/corpHome_page.dart';
 import 'package:login_app/pages/home/home_page.dart';
 import 'package:login_app/test/corporate/test_corporate_bottom_navbar.dart';
 
@@ -67,7 +68,7 @@ class AuthPage extends StatelessWidget {
               if (userType == 'jobseeker') {
                 return HomePage();
               } else if (userType == 'corporate') {
-                return const CorporateNavbar();
+                return CorpHomePage();
               } else {
                 return const WelcomePage(); //LoginPage //WelcomPage
               }
