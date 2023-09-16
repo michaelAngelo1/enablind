@@ -3,9 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:login_app/components/backgroundPage.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:login_app/components/buttons/bottomButton.dart';
-import 'package:login_app/components/my_textfield.dart';
 import 'package:login_app/firebase/cloud_storage.dart';
 import 'package:login_app/firebase/db_instance.dart';
+import 'package:login_app/pages/home/categories/profileSeeker_page.dart';
 import 'package:login_app/variables.dart';
 
 class editProfileSeeker extends StatefulWidget {
@@ -20,7 +20,10 @@ class _editProfileSeekerState extends State<editProfileSeeker> {
   final _fullNameController = TextEditingController();
   final _genderController = TextEditingController();
   final _dobController = TextEditingController();
-  final _lastEducationController = TextEditingController();
+  final _phoneNumberController = TextEditingController();
+
+  final editJobseekerRef = fsdb.collection('Users/Role/Jobseekers').doc(auth.currentUser!.uid);
+
   @override
   Widget build(BuildContext context) {
     final Storage cloud = Storage();
@@ -99,7 +102,7 @@ class _editProfileSeekerState extends State<editProfileSeeker> {
                         },
                         child: Text("change profile picture",
                             style: GoogleFonts.plusJakartaSans(
-                              color: titleContentColor,
+                              color: accentColor,
                               fontWeight: FontWeight.w400,
                               fontSize: 16,
                             )),
@@ -127,13 +130,22 @@ class _editProfileSeekerState extends State<editProfileSeeker> {
                           const SizedBox(height: 12.0),
                           EditProfileField(fieldController: _dobController),
               
-                          HelperText(helper: "Last Education"),
+                          HelperText(helper: "Phone Number"),
                           const SizedBox(height: 12.0),
-                          EditProfileField(fieldController: _lastEducationController),
+                          EditProfileField(fieldController: _phoneNumberController),
 
                           BottomButton(
                             label: "Apply edit", 
-                            onPressed: () {},
+                            onPressed: () {
+                              editJobseekerRef.update({
+                                'fullName': _fullNameController.text,
+                                'gender': _genderController.text,
+                                'dateOfBirth': _dobController.text,
+                                'phoneNumber': _phoneNumberController.text,
+                              })
+                                .then((value) => print("Edit profile success"), onError: (e) => print("Error edit profile"));
+                              Navigator.pop(context);
+                            },
                           )
                       ]
                     )
