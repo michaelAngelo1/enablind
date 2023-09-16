@@ -80,12 +80,14 @@ class _HomePageState extends State<HomePage> {
                   color: navbarIconColor),
             ),
             Text(
-              user.email!,
+              user.email ?? 'N/A', // Provide a default value ('N/A' in this case)
               style: GoogleFonts.plusJakartaSans(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                  color: titleContentColor),
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+                color: titleContentColor,
+              ),
             ),
+
           ],
         ),
         actions: [
