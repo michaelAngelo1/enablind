@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:login_app/components/jobs/jobCardComponent.dart';
-import 'package:login_app/firebase/db_instance.dart';
 import 'package:login_app/models/joblisting.dart';
 
 class ActiveJobs extends StatefulWidget {
@@ -12,84 +12,101 @@ class ActiveJobs extends StatefulWidget {
 }
 
 class _ActiveJobsState extends State<ActiveJobs> {
-  String corpUID = 'BxuRxdKtGcgA1h2glZQJnPVx8u32'; //auth.currentUser!.uid;
-  final Timestamp currentTime = Timestamp.now();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  late User? _currentUser;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentUser = _auth.currentUser;
+  }
+
+  Future<List<Map<String, dynamic>>> _fetchCorporateDataForJobListings(
+      List<QueryDocumentSnapshot<Map<String, dynamic>>> jobListings) async {
+    final List<Future<DocumentSnapshot<Map<String, dynamic>>>> corporateDataFutures =
+        jobListings.map((jobListing) {
+      final companyUid = jobListing['jobCompany'];
+      return FirebaseFirestore.instance.collection('Users/Role/Corporations').doc(companyUid).get();
+    }).toList();
+
+    final corporateDataSnapshots = await Future.wait(corporateDataFutures);
+
+    return corporateDataSnapshots.map((snapshot) => snapshot.data() as Map<String, dynamic>).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: fsdb
-          .collection('/Jobs/')
-          .where('jobCompany', isEqualTo: corpUID)
-          .get(),
+    return StreamBuilder(
+      stream: FirebaseFirestore.instance.collection('Jobs').where('jobCompany', isEqualTo: _currentUser?.uid).snapshots(),
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
-        } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+        if (!snapshot.hasData) {
           return const Center(
-              child: Text(
-            'No data available',
-            style: TextStyle(color: Colors.white),
-          ));
-        } else {
-          return Column(
-            children: [
-              for (var document in snapshot.data!.docs)
-                FutureBuilder(
-                  future: fsdb
-                      .collection('/Users/Role/Corporations/')
-                      .doc(document['jobCompany'])
-                      .get(),
-                  builder: (context, corpSnapshot) {
-                    if (corpSnapshot.connectionState ==
-                        ConnectionState.waiting) {
-                      return const Center();
-                    } else if (corpSnapshot.hasError) {
-                      return Center(
-                          child: Text('Error: ${corpSnapshot.error}'));
-                    } else if (!corpSnapshot.hasData) {
-                      return const Center(
-                          child: Text('No corporation data available'));
-                    } else {
-                      final corpData =
-                          corpSnapshot.data!.data() as Map<String, dynamic>;
-                      final jobData = document.data() as Map<String, dynamic>;
-
-                      final job = Joblisting(
-                        jobTitle: jobData['jobTitle'],
-                        jobDescription: jobData['jobDescription'],
-                        jobQualifications: jobData['jobQualifications'],
-                        jobType: jobData['jobType'],
-                        jobSalary: jobData['jobSalary'],
-                        jobListingCloseDate: jobData['jobListingCloseDate'],
-                        corpName: corpData['corporationName'],
-                        corpLogo: corpData['logoUrl'],
-                      );
-
-                      if (jobData['jobListingCloseDate'] != null &&
-                          jobData['jobListingCloseDate']
-                              .toDate()
-                              .isAfter(currentTime.toDate())) {
-                        return Column(
-                          children: [
-                            JobCardComponent(
-                              job: job,
-                              enableBookmark: false,
-                            ),
-                            const SizedBox(height: 16.0),
-                          ],
-                        );
-                      } else {
-                        // JobListingCloseDate is in the future or null
-                        return const SizedBox.shrink();
-                      }
-                    }
-                  },
-                ),
-            ],
+            child: CircularProgressIndicator(),
           );
         }
+
+        final jobListings = snapshot.data!.docs;
+
+        if (jobListings.isEmpty) {
+          return const Center(
+            child: Text('No job listings available.'),
+          );
+        }
+
+        return FutureBuilder<List<Map<String, dynamic>>>(
+          future: _fetchCorporateDataForJobListings(jobListings),
+          builder: (context, corporateDataSnapshot) {
+            if (corporateDataSnapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+
+            if (corporateDataSnapshot.hasError) {
+              return const Center(
+                child: Text('Error loading corporate data.'),
+              );
+            }
+
+            if (!corporateDataSnapshot.hasData || corporateDataSnapshot.data!.isEmpty) {
+              return const Center(
+                child: Text('No corporate data available.'),
+              );
+            }
+
+            final corporateDataList = corporateDataSnapshot.data!;
+            final jobListWidgets = <Widget>[];
+
+            for (var i = 0; i < jobListings.length; i++) {
+              final jobListing = jobListings[i].data() as Map<String, dynamic>;
+              final companyData = corporateDataList[i];
+
+              final job = Joblisting(
+                jobTitle: jobListing['jobTitle'],
+                jobDescription: jobListing['jobDescription'],
+                jobQualifications: jobListing['jobQualifications'],
+                jobType: jobListing['jobType'],
+                jobSalary: jobListing['jobSalary'],
+                jobListingCloseDate: jobListing['jobListingCloseDate'],
+                corpName: companyData['corporationName'],
+                corpLogo: companyData['logoUrl'],
+              );
+
+              if (jobListing['jobListingCloseDate'] != null) {
+                jobListWidgets.add(
+                  JobCardComponent(
+                    job: job,
+                    enableBookmark: false,
+                  ),
+                );
+                  
+              }
+            }
+            return Column(
+              children: jobListWidgets,
+            );
+          },
+        );
       },
     );
   }
