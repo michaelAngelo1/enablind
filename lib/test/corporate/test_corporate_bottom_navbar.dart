@@ -16,7 +16,7 @@ class _CorporateNavbarState extends State<CorporateNavbar> {
   final List<Widget> _pages = [
     const CorporateLandingPage(),
     Container(), // Placeholder for the Create Job button
-    const CorporateProfilePage(),
+    const profileCorp_page(),
   ];
 
   @override

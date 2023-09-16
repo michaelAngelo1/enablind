@@ -29,7 +29,7 @@ class _CorpHomePageState extends State<CorpHomePage> {
 
   final List<Widget> _pages = [
     const DashboardPage(), //CorporateLandingPage()
-    const CorporateProfilePage(),
+    const profileCorp_page(),
   ];
 
   // user object
