@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:login_app/components/buttons/yellowButton.dart';
 import 'package:login_app/pages/auth/choose_page.dart';
+import 'package:login_app/pages/corporate/corpHome_page.dart';
 import 'package:login_app/pages/home/home_page.dart';
 import 'package:login_app/test/auth/test_register_page.dart';
 import 'package:login_app/test/auth/test_register_select_page.dart';
@@ -225,7 +226,7 @@ class LoginPasswordPageState extends State<LoginPasswordPage> {
               context,
               MaterialPageRoute(
                   builder: (context) =>
-                      const CorporateNavbar()), // Replace with your corporate home page
+                      CorpHomePage()), // Replace with your corporate home page
             );
           } else {
             print("Unknown user type");
