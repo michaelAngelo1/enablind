@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:login_app/models/applicant.dart';
 import 'package:login_app/models/jobseeker.dart';
+import 'package:login_app/pages/corporate/applicantDetail_page.dart';
 import 'package:login_app/variables.dart';
 
 class ApplicantCard extends StatelessWidget {
-  final Jobseeker applicant;
+  final Applicant applicant;
   const ApplicantCard({
     super.key,
     required this.applicant,
@@ -18,6 +20,11 @@ class ApplicantCard extends StatelessWidget {
         GestureDetector(
           onTap: () {
             // Navigate to the destination page
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ApplicantDetail(applicant: applicant)),
+            );
           },
           child: Container(
               width: screenWidth - 28,
@@ -67,7 +74,7 @@ class ApplicantCard extends StatelessWidget {
                                 fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            "applicant.email",
+                            applicant.phoneNum,
                             style: GoogleFonts.plusJakartaSans(
                               color: titleJobCardColor,
                               fontSize: 16,
@@ -88,7 +95,7 @@ class ApplicantCard extends StatelessWidget {
                       ),
                       child: Center(
                         child: Text(
-                          'job position',
+                          applicant.role,
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 14,
