@@ -96,7 +96,7 @@ class ExploreSeeker extends StatelessWidget {
                                 final corpData = corpSnapshot.data!.data()
                                     as Map<String, dynamic>;
                                 final jobData =
-                                    document.data() as Map<String, dynamic>;
+                                    document.data();
 
                                 final job = Joblisting(
                                   jobTitle: jobData['jobTitle'],

@@ -5,7 +5,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:login_app/components/buttons/bottomButton.dart';
 import 'package:login_app/firebase/cloud_storage.dart';
 import 'package:login_app/firebase/db_instance.dart';
-import 'package:login_app/pages/home/categories/profileSeeker_page.dart';
 import 'package:login_app/variables.dart';
 
 class editProfileSeeker extends StatefulWidget {

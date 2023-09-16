@@ -4,6 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:login_app/components/buttons/yellowButton.dart';
 import 'package:login_app/firebase/cloud_storage.dart';
 import 'package:login_app/firebase/db_instance.dart';
+import 'package:login_app/pages/aboutEnablind_page.dart';
+import 'package:login_app/pages/auth/welcome_page.dart';
 import 'package:login_app/pages/jobseeker/editProfileSeeker_page.dart';
 // import 'package:login_app/test/auth/test_login_page.dart';
 import 'package:login_app/variables.dart';
@@ -122,12 +124,25 @@ class _ProfileSeekerState extends State<ProfileSeeker> {
             const SizedBox(height: 24.0),
             YellowButton(
               label: "About enablind", 
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => AboutEnablind()),
+                );
+              },
             ),
             const SizedBox(height: 24.0),
             YellowButton(
               label: "Log out", 
-              onPressed: () {},
+              onPressed: () {
+                auth.signOut();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => WelcomePage()),
+                );
+              },
             ),
           ],
         ),

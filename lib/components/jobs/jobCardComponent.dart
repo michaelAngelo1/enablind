@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:login_app/firebase/db_instance.dart';
 import 'package:login_app/models/joblisting.dart';
 import 'package:login_app/pages/jobseeker/jobDetailSeeker_page.dart';
 import 'package:login_app/variables.dart';
@@ -20,7 +21,9 @@ class JobCardComponent extends StatefulWidget {
 }
 
 class _JobCardComponentState extends State<JobCardComponent> {
-  bool isBookmarked = false;
+  bool isBookmarkedToggle = false;
+
+  final isBookmarkedRef = fsdb.collection('Jobs');
 
   @override
   Widget build(BuildContext context) {
@@ -143,7 +146,7 @@ class _JobCardComponentState extends State<JobCardComponent> {
                 onTap: () {
                   // to-do handle tap
                   setState(() {
-                    isBookmarked = !isBookmarked; // Toggle bookmark state
+                    isBookmarkedToggle = !isBookmarkedToggle; // Toggle bookmark state
                   });
                 },
                 child: Container(
@@ -162,12 +165,12 @@ class _JobCardComponentState extends State<JobCardComponent> {
                     ],
                   ),
                   child: Icon(
-                      isBookmarked
+                      isBookmarkedToggle
                           ? Icons.bookmark
                           : Icons.bookmark_border_outlined,
                       color: Colors.black,
                       size: 30,
-                      semanticLabel: isBookmarked
+                      semanticLabel: isBookmarkedToggle
                           ? 'click to remove saved job'
                           : 'click to save job'),
                 ),
