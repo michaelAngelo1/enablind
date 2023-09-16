@@ -19,14 +19,16 @@ void updateIsBookmarked(CollectionReference jobsRef, List<String> isBookmarked) 
 
       for(QueryDocumentSnapshot docSnapshot in QuerySnapshot.docs) {
 
-        List<dynamic> isBookmarkedList = docSnapshot.data()?['isBookmarked'] ?? [];
+        // List<dynamic> isBookmarkedList = docSnapshot.data()?['isBookmarked'] ?? [];
 
-        // Add elements to the 'isBookmarked' array if they are not already present
-        for (String element in isBookmarkedList) {
-          if (!isBookmarked.contains(element)) {
-            isBookmarked.add(element);
-          }
-        }
+        // List<String> isBookmarkedStringList = List<String>.from(isBookmarkedList);
+
+        // // Add elements to the 'isBookmarked' array if they are not already present
+        // for (String element in isBookmarkedList) {
+        //   if (!isBookmarked.contains(element)) {
+        //     isBookmarked.add(element);
+        //   }
+        // }
 
         batch.update(docSnapshot.reference, {
           'isBookmarked': isBookmarked,

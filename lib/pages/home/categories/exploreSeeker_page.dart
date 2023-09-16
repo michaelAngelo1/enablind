@@ -107,6 +107,7 @@ class ExploreSeeker extends StatelessWidget {
                                   jobSalary: jobData['jobSalary'],
                                   jobListingCloseDate:
                                       jobData['jobListingCloseDate'],
+                                  isBookmarked: jobData['isBookmarked'],
                                   corpName: corpData['corporationName'],
                                   corpLogo: corpData['logoUrl'],
                                 );

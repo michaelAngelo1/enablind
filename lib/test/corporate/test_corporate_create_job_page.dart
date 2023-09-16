@@ -42,6 +42,7 @@ class CreateJobState extends State<CreateJob> {
         'jobSalary': jobSalary,
         'jobListingPublishDate': jobListingPublishDate,
         'jobListingCloseDate': jobListingCloseDate,
+        'isBookmarked': [],
       };
 
       await firestoreInstance.collection('Jobs').add(jobData);
