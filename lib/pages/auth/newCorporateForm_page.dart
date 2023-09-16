@@ -8,6 +8,7 @@ import 'package:login_app/components/buttons/yellowButton.dart';
 import 'package:login_app/components/formBox.dart';
 import 'package:login_app/pages/corporate/corpHome_page.dart';
 import 'package:login_app/test/corporate/test_corporate_bottom_navbar.dart';
+import 'package:login_app/test/corporate/test_corporate_landing_page.dart';
 import 'package:login_app/variables.dart';
 
 class NewCorporateForm extends StatefulWidget {

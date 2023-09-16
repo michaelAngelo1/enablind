@@ -3,13 +3,17 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:login_app/models/applicant.dart';
 import 'package:login_app/models/jobseeker.dart';
 import 'package:login_app/pages/corporate/applicantDetail_page.dart';
+import 'package:login_app/pages/corporate/gabung/dashboard/fix_applicationDetails.dart';
+import 'package:login_app/test/corporate/test_corporate_landing_page_tabs/test_corporate_applicants/test_corporate_job_application_details.dart';
 import 'package:login_app/variables.dart';
 
 class ApplicantCard extends StatelessWidget {
-  final Applicant applicant;
+  final Map<String, dynamic> jobApplication;
+  final String jobApplicationId;
   const ApplicantCard({
     super.key,
-    required this.applicant,
+    required this.jobApplication,
+    required this.jobApplicationId,
   });
 
   @override
@@ -23,7 +27,12 @@ class ApplicantCard extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => ApplicantDetail(applicant: applicant)),
+                builder: (context) => ApplicationsDetail(
+                  jobApplication: jobApplication,
+                  jobApplicationId:
+                      jobApplicationId, // Pass the document ID to the detail page
+                ),
+              ),
             );
           },
           child: Container(
@@ -57,7 +66,7 @@ class ApplicantCard extends StatelessWidget {
                           width: 50,
                           height: 50,
                           child: Image.network(
-                            'lib/images/apple.png', // to-do change
+                            'https://firebasestorage.googleapis.com/v0/b/enablind-db.appspot.com/o/profile-icon-vector.jpg?alt=media&token=cb2412e9-ebab-436f-9cc7-dba272337d40', // to-do change
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -67,14 +76,14 @@ class ApplicantCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            applicant.fullName,
+                            jobApplication['fullName'],
                             style: GoogleFonts.plusJakartaSans(
                                 color: titleJobCardColor,
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            applicant.phoneNum,
+                            jobApplication['phone'],
                             style: GoogleFonts.plusJakartaSans(
                               color: titleJobCardColor,
                               fontSize: 16,
@@ -95,7 +104,7 @@ class ApplicantCard extends StatelessWidget {
                       ),
                       child: Center(
                         child: Text(
-                          applicant.role,
+                          jobApplication['role'],
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 14,

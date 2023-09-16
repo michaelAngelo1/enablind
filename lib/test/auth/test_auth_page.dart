@@ -3,11 +3,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:login_app/components/loadingScreen.dart';
 import 'package:login_app/firebase/db_instance.dart';
 import 'package:login_app/pages/auth/welcome_page.dart';
 import 'package:login_app/pages/corporate/corpHome_page.dart';
 import 'package:login_app/pages/home/home_page.dart';
 import 'package:login_app/test/corporate/test_corporate_bottom_navbar.dart';
+import 'package:login_app/test/corporate/test_corporate_landing_page.dart';
 
 class AuthPage extends StatelessWidget {
   const AuthPage({super.key});
@@ -47,7 +49,7 @@ class AuthPage extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           // Handle the case where the authentication state is still loading
-          return const CircularProgressIndicator(); // You can use a loading indicator here
+          return LoadingScreen(); // You can use a loading indicator here
         }
 
         if (snapshot.hasData) {
@@ -59,7 +61,7 @@ class AuthPage extends StatelessWidget {
             builder: (context, userTypeSnapshot) {
               if (userTypeSnapshot.connectionState == ConnectionState.waiting) {
                 // Handle the case where the user type is still loading
-                return const CircularProgressIndicator(); // You can use a loading indicator here
+                return LoadingScreen(); // You can use a loading indicator here
               }
 
               final userType = userTypeSnapshot.data;

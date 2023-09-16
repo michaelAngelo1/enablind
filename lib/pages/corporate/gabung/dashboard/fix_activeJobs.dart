@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'test_corporate_job_details.dart';
+import 'package:login_app/components/jobs/jobCardComponent.dart';
+import 'package:login_app/components/newJobCard.dart';
+import 'package:login_app/models/joblisting.dart';
+import 'package:login_app/test/corporate/test_corporate_landing_page_tabs/test_corporate_active_jobs/test_corporate_job_details.dart';
 
-class CorporateJobListPage extends StatefulWidget {
-  const CorporateJobListPage({super.key});
+class CorpActiveJobs extends StatefulWidget {
+  const CorpActiveJobs({super.key});
 
   @override
-  State<CorporateJobListPage> createState() => _CorporateJobListPageState();
+  State<CorpActiveJobs> createState() => _CorpActiveJobsState();
 }
 
-class _CorporateJobListPageState extends State<CorporateJobListPage> {
+class _CorpActiveJobsState extends State<CorpActiveJobs> {
   Future<List<Map<String, dynamic>>> _fetchCorporateDataForJobListings(
       List<QueryDocumentSnapshot<Map<String, dynamic>>> jobListings) async {
     final List<Future<DocumentSnapshot<Map<String, dynamic>>>>
@@ -32,6 +35,7 @@ class _CorporateJobListPageState extends State<CorporateJobListPage> {
 
   @override
   Widget build(BuildContext context) {
+    final Timestamp currentTime = Timestamp.now();
     return StreamBuilder(
       stream: FirebaseFirestore.instance.collection('Jobs').snapshots(),
       builder: (context, snapshot) {
@@ -79,34 +83,34 @@ class _CorporateJobListPageState extends State<CorporateJobListPage> {
               final jobListing = jobListings[i].data() as Map<String, dynamic>;
               final companyData = corporateDataList[i];
 
-              final companyName = companyData['corporationName'];
-              final companyLogo = companyData['logoUrl'];
+              final companyName = companyData['corporationName'] ?? '';
+              final companyLogo = companyData['logoUrl'] ?? '';
 
-              jobListWidgets.add(
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            JobDetailsPage(jobListing: jobListing),
+              if (jobListing['jobListingCloseDate'] == null ||
+                  jobListing['jobListingCloseDate']
+                      .toDate()
+                      .isAfter(currentTime.toDate())) {
+                jobListWidgets.add(
+                  Column(
+                    children: [
+                      NewJobCard(
+                        job: jobListing,
+                        companyLogo: companyLogo,
+                        companyName: companyName,
+                        enableBookmark: false,
                       ),
-                    );
-                  },
-                  child: ListTile(
-                    title: Text(jobListing['jobTitle'] ?? ''),
-                    subtitle: Text(jobListing['jobType'] ?? ''),
-                    leading: Image.network(companyLogo), // Display company logo
-                    trailing:
-                        Text('Posted by: $companyName'), // Display company name
+                      const SizedBox(height: 16),
+                    ],
                   ),
-                ),
-              );
+                );
+              }
             }
 
             return Expanded(
-              child: ListView(
-                children: jobListWidgets,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: jobListWidgets,
+                ),
               ),
             );
           },

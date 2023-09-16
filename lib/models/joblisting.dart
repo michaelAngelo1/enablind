@@ -5,7 +5,7 @@ class Joblisting {
   String jobDescription;
   List<dynamic> jobQualifications;
   String jobType;
-  int jobSalary;
+  double jobSalary;
   String corpLogo;
   String corpName;
   bool isFreelance;
@@ -18,7 +18,7 @@ class Joblisting {
     this.jobDescription = '',
     this.jobQualifications = const [],
     this.jobType = '',
-    this.jobSalary = 0,
+    this.jobSalary = 0.0,
     this.corpLogo = '',
     this.corpName = '',
     this.isFreelance = false,
