@@ -99,12 +99,25 @@ class ExploreSeeker extends StatelessWidget {
                                 final jobData =
                                     document.data() as Map<String, dynamic>;
 
+                                if (corpData == null || jobData == null) {
+                                  // Handle null data gracefully
+                                  return const SizedBox.shrink();
+                                }
+
+                                final companyLogo = corpData['logoUrl'] as String?;
+                                final companyName = corpData['corporationName'] as String?;
+
+                                if (companyLogo == null || companyName == null) {
+                                  // Handle null data for logoUrl and corporationName gracefully
+                                  return const SizedBox.shrink();
+                                }
+
                                 return Column(
                                   children: [
                                     NewJobCard(
                                       job: jobData,
-                                      companyLogo: corpData['logoUrl'],
-                                      companyName: corpData['corporationName'],
+                                      companyLogo: companyLogo,
+                                      companyName: companyName,
                                     ),
                                     const SizedBox(height: 16.0),
                                   ],

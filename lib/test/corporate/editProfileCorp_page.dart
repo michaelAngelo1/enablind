@@ -7,21 +7,21 @@ import 'package:login_app/firebase/cloud_storage.dart';
 import 'package:login_app/firebase/db_instance.dart';
 import 'package:login_app/variables.dart';
 
-class editProfileSeeker extends StatefulWidget {
-  const editProfileSeeker({super.key});
+class editProfileCorp extends StatefulWidget {
+  const editProfileCorp({super.key});
 
   @override
-  State<editProfileSeeker> createState() => _editProfileSeekerState();
+  State<editProfileCorp> createState() => _editProfileCorpState();
 }
 
-class _editProfileSeekerState extends State<editProfileSeeker> {
+class _editProfileCorpState extends State<editProfileCorp> {
 
   final _fullNameController = TextEditingController();
   final _genderController = TextEditingController();
   final _dobController = TextEditingController();
   final _phoneNumberController = TextEditingController();
 
-  final editJobseekerRef = fsdb.collection('Users/Role/Jobseekers').doc(auth.currentUser!.uid);
+  final editJobseekerRef = fsdb.collection('Users/Role/Corporate').doc(auth.currentUser!.uid);
 
   @override
   Widget build(BuildContext context) {
@@ -117,17 +117,13 @@ class _editProfileSeekerState extends State<editProfileSeeker> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
                           
-                          HelperText(helper: "Full name"),
+                          HelperText(helper: "Corporation Name"),
                           const SizedBox(height: 12.0),
                           EditProfileField(fieldController: _fullNameController),
               
-                          HelperText(helper: "Gender"),
+                          HelperText(helper: "Founding Date"),
                           const SizedBox(height: 12.0),
                           EditProfileField(fieldController: _genderController),
-              
-                          HelperText(helper: "Date of Birth"),
-                          const SizedBox(height: 12.0),
-                          EditProfileField(fieldController: _dobController),
               
                           HelperText(helper: "Phone Number"),
                           const SizedBox(height: 12.0),
@@ -137,9 +133,8 @@ class _editProfileSeekerState extends State<editProfileSeeker> {
                             label: "Apply edit", 
                             onPressed: () {
                               editJobseekerRef.update({
-                                'fullName': _fullNameController.text,
-                                'gender': _genderController.text,
-                                'dateOfBirth': _dobController.text,
+                                'corporationName': _fullNameController.text,
+                                'foundingDate': _genderController.text,
                                 'phoneNumber': _phoneNumberController.text,
                               })
                                 .then((value) => print("Edit profile success"), onError: (e) => print("Error edit profile"));

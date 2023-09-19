@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:login_app/components/jobs/jobCardComponent.dart';
@@ -32,12 +33,20 @@ class _CorpActiveJobsState extends State<CorpActiveJobs> {
         .map((snapshot) => snapshot.data() as Map<String, dynamic>)
         .toList();
   }
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  late User? _currentUser;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentUser = _auth.currentUser;
+  }
 
   @override
   Widget build(BuildContext context) {
     final Timestamp currentTime = Timestamp.now();
     return StreamBuilder(
-      stream: FirebaseFirestore.instance.collection('Jobs').snapshots(),
+      stream: FirebaseFirestore.instance.collection('Jobs').where('jobCompany', isEqualTo: _currentUser?.uid).snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return const Center(

@@ -37,12 +37,12 @@ class _NewJobCardState extends State<NewJobCard> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => NewJobDetailPage(
-                        job: widget.job,
-                        corpName: widget.companyName,
-                        isJobseeker: widget.enableBookmark,
-                        isClosed: widget.isClosed,
-                      )),
+                builder: (context) => NewJobDetailPage(
+                      job: widget.job,
+                      corpName: widget.companyName,
+                      isJobseeker: widget.enableBookmark,
+                      isClosed: widget.isClosed,
+                    )),
             );
           },
           child: Container(

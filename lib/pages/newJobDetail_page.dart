@@ -5,6 +5,7 @@ import 'package:login_app/components/backgroundPage.dart';
 import 'package:login_app/components/buttons/bottomButton.dart';
 import 'package:login_app/models/joblisting.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:login_app/test/jobseeker/test_jobseeker_apply/test_cv_maker.dart';
 import 'package:login_app/variables.dart';
 import 'package:intl/intl.dart';
 
@@ -36,7 +37,14 @@ class _NewJobDetailPageState extends State<NewJobDetailPage>
   }
 
   void _handleButtonPress() {
-    print('apply pressed');
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CvTemplate(
+          jobListing: widget.job,
+        ),
+      ),
+    );
   }
 
   @override
