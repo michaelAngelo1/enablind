@@ -65,7 +65,7 @@ class JobApplicationPage extends StatelessWidget {
 
                       return Column(
                         children: [
-                          ApplicantCard(applicant: applicant),
+                          // ApplicantCard(applicant: applicant),
                           const SizedBox(height: 16.0),
                         ],
                       );

@@ -6,10 +6,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:login_app/firebase/db_instance.dart';
 import 'package:login_app/models/joblisting.dart';
 import 'package:login_app/pages/auth/welcome_page.dart';
+import 'package:login_app/pages/corporate/corpCreateJob.dart';
 import 'package:login_app/pages/corporate/dashboard_page.dart';
 import 'package:login_app/pages/home/categories/savedSeeker_page.dart';
 import 'package:login_app/pages/home/categories/updatesSeeker_page.dart';
 import 'package:login_app/test/corporate/test_corporate_create_job_page.dart';
+import 'package:login_app/test/corporate/test_corporate_landing_page.dart';
 import 'package:login_app/test/corporate/test_corporate_profile_page.dart';
 // import 'package:login_app/test/auth/test_login_page.dart';
 import 'package:login_app/variables.dart';
@@ -26,8 +28,8 @@ class _CorpHomePageState extends State<CorpHomePage> {
   int _currentIndex = 0;
 
   final List<Widget> _pages = [
-    const DashboardPage(),
-    const CorporateProfilePage(),
+    const DashboardPage(), //CorporateLandingPage()
+    const profileCorp_page(),
   ];
 
   // user object
@@ -81,16 +83,17 @@ class _CorpHomePageState extends State<CorpHomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // Navigate to the Create Job page when the button is pressed
+          print('masuksini');
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => const CreateJob(),
+              builder: (context) => const CorpCreateJob(),
             ),
           );
         },
         tooltip: "Create Job Listing",
         child: const Icon(
           Icons.add,
-          color: accentColor,
+          color: Colors.black,
         ),
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:login_app/components/jobs/jobCardComponent.dart';
+import 'package:login_app/components/newJobCard.dart';
 import 'package:login_app/firebase/db_instance.dart';
 import 'package:login_app/models/joblisting.dart';
 import 'package:login_app/variables.dart';
@@ -98,24 +99,29 @@ class ExploreSeeker extends StatelessWidget {
                                 final jobData =
                                     document.data();
 
-                                final job = Joblisting(
-                                  jobTitle: jobData['jobTitle'],
-                                  jobDescription: jobData['jobDescription'],
-                                  jobQualifications:
-                                      jobData['jobQualifications'],
-                                  jobType: jobData['jobType'],
-                                  jobSalary: jobData['jobSalary'],
-                                  jobListingCloseDate:
-                                      jobData['jobListingCloseDate'],
-                                  isBookmarked: jobData['isBookmarked'],
-                                  corpName: corpData['corporationName'],
-                                  corpLogo: corpData['logoUrl'],
-                                );
+                                // ON CONFLICTS, ACCEPT INCOMING 
+                                final jobDocID = document.id;
+
+                                if (corpData == null || jobData == null) {
+                                  // Handle null data gracefully
+                                  return const SizedBox.shrink();
+                                }
+
+                                final companyLogo = corpData['logoUrl'] as String?;
+                                final companyName = corpData['corporationName'] as String?;
+
+                                if (companyLogo == null || companyName == null) {
+                                  // Handle null data for logoUrl and corporationName gracefully
+                                  return const SizedBox.shrink();
+                                }
 
                                 return Column(
                                   children: [
-                                    JobCardComponent(
-                                      job: job,
+                                    NewJobCard(
+                                      job: jobData,
+                                      jobDocID: jobDocID,
+                                      companyLogo: companyLogo,
+                                      companyName: companyName,
                                     ),
                                     const SizedBox(height: 16.0),
                                   ],

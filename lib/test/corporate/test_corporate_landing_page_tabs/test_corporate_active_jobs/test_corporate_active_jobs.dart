@@ -12,16 +12,22 @@ class CorporateJobListPage extends StatefulWidget {
 class _CorporateJobListPageState extends State<CorporateJobListPage> {
   Future<List<Map<String, dynamic>>> _fetchCorporateDataForJobListings(
       List<QueryDocumentSnapshot<Map<String, dynamic>>> jobListings) async {
-    final List<Future<DocumentSnapshot<Map<String, dynamic>>>> corporateDataFutures = [];
+    final List<Future<DocumentSnapshot<Map<String, dynamic>>>>
+        corporateDataFutures = [];
 
     for (final jobListing in jobListings) {
       final companyUid = jobListing['jobCompany'];
-      corporateDataFutures.add(FirebaseFirestore.instance.collection('Users/Role/Corporations').doc(companyUid).get());
+      corporateDataFutures.add(FirebaseFirestore.instance
+          .collection('Users/Role/Corporations')
+          .doc(companyUid)
+          .get());
     }
 
     final corporateDataSnapshots = await Future.wait(corporateDataFutures);
 
-    return corporateDataSnapshots.map((snapshot) => snapshot.data() as Map<String, dynamic>).toList();
+    return corporateDataSnapshots
+        .map((snapshot) => snapshot.data() as Map<String, dynamic>)
+        .toList();
   }
 
   @override
@@ -46,7 +52,8 @@ class _CorporateJobListPageState extends State<CorporateJobListPage> {
         return FutureBuilder<List<Map<String, dynamic>>>(
           future: _fetchCorporateDataForJobListings(jobListings),
           builder: (context, corporateDataSnapshot) {
-            if (corporateDataSnapshot.connectionState == ConnectionState.waiting) {
+            if (corporateDataSnapshot.connectionState ==
+                ConnectionState.waiting) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
@@ -58,7 +65,8 @@ class _CorporateJobListPageState extends State<CorporateJobListPage> {
               );
             }
 
-            if (!corporateDataSnapshot.hasData || corporateDataSnapshot.data!.isEmpty) {
+            if (!corporateDataSnapshot.hasData ||
+                corporateDataSnapshot.data!.isEmpty) {
               return const Center(
                 child: Text('No corporate data available.'),
               );
@@ -80,7 +88,8 @@ class _CorporateJobListPageState extends State<CorporateJobListPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => JobDetailsPage(jobListing: jobListing),
+                        builder: (context) =>
+                            JobDetailsPage(jobListing: jobListing),
                       ),
                     );
                   },
@@ -88,14 +97,17 @@ class _CorporateJobListPageState extends State<CorporateJobListPage> {
                     title: Text(jobListing['jobTitle'] ?? ''),
                     subtitle: Text(jobListing['jobType'] ?? ''),
                     leading: Image.network(companyLogo), // Display company logo
-                    trailing: Text('Posted by: $companyName'), // Display company name
+                    trailing:
+                        Text('Posted by: $companyName'), // Display company name
                   ),
                 ),
               );
             }
 
-            return ListView(
-              children: jobListWidgets,
+            return Expanded(
+              child: ListView(
+                children: jobListWidgets,
+              ),
             );
           },
         );

@@ -24,6 +24,8 @@ class NewJobseekerFormState extends State<NewJobseekerForm> {
   String phoneNumber = "";
   DateTime? dateOfBirth;
   String gender = "";
+  // ON CONFLICTS, ACCEPT INCOMING
+  late List<String> savedJobs;
   Timestamp? registrationDate;
 
   final TextEditingController _dateOfBirthController = TextEditingController();
@@ -176,7 +178,9 @@ class NewJobseekerFormState extends State<NewJobseekerForm> {
         'gender': gender,
         'registrationDate': registrationDate,
         'userType': 'jobseeker',
-        'hasRegistered': true
+        'hasRegistered': true,
+        'savedJobs': ['123'],
+        // TAMBAHIN FIELD savedJobs[] ?
       };
 
       try {

@@ -55,7 +55,9 @@ class _JobCardComponentState extends State<JobCardComponent> {
               ),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
-                color: widget.isClosed ? disabledNavbar : accentColor,
+                color: widget.isClosed
+                    ? Color.fromARGB(255, 74, 74, 75)
+                    : accentColor,
                 boxShadow: const [
                   BoxShadow(
                     color: Colors.black, // Shadow color

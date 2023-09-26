@@ -7,7 +7,8 @@ class CorporateJobApplications extends StatefulWidget {
   const CorporateJobApplications({super.key});
 
   @override
-  State<CorporateJobApplications> createState() => _CorporateJobApplicationsState();
+  State<CorporateJobApplications> createState() =>
+      _CorporateJobApplicationsState();
 }
 
 class _CorporateJobApplicationsState extends State<CorporateJobApplications> {
@@ -54,29 +55,35 @@ class _CorporateJobApplicationsState extends State<CorporateJobApplications> {
         } else {
           // Data is available, display the list
           final jobApplications = snapshot.data!.docs;
-          return ListView.builder(
-            itemCount: jobApplications.length,
-            itemBuilder: (context, index) {
-              final applicationSnapshot = jobApplications[index]; // Get the document snapshot
-              final application = applicationSnapshot.data() as Map<String, dynamic>;
-              final jobApplicationId = applicationSnapshot.id; // Get the document ID
+          return Expanded(
+            child: ListView.builder(
+              itemCount: jobApplications.length,
+              itemBuilder: (context, index) {
+                final applicationSnapshot =
+                    jobApplications[index]; // Get the document snapshot
+                final application =
+                    applicationSnapshot.data() as Map<String, dynamic>;
+                final jobApplicationId =
+                    applicationSnapshot.id; // Get the document ID
 
-              return ListTile(
-                title: Text(application['fullName']),
-                subtitle: Text(application['role']),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => JobApplicationDetailPage(
-                        jobApplication: application,
-                        jobApplicationId: jobApplicationId, // Pass the document ID to the detail page
+                return ListTile(
+                  title: Text(application['fullName']),
+                  subtitle: Text(application['role']),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => JobApplicationDetailPage(
+                          jobApplication: application,
+                          jobApplicationId:
+                              jobApplicationId, // Pass the document ID to the detail page
+                        ),
                       ),
-                    ),
-                  );
-                },
-              );
-            },
+                    );
+                  },
+                );
+              },
+            ),
           );
         }
       },
