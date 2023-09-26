@@ -134,6 +134,7 @@ class LoginPasswordPageState extends State<LoginPasswordPage> {
                       _isPasswordVisible
                           ? Icons.visibility
                           : Icons.visibility_off,
+                      semanticLabel: 'toggle visibility',
                     ),
                     onPressed: () {
                       setState(() {

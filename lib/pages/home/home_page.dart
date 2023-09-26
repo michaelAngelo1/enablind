@@ -63,7 +63,7 @@ class _HomePageState extends State<HomePage> {
     // });
 
     return Scaffold(
-      resizeToAvoidBottomInset : false,
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         toolbarHeight: 80,
@@ -80,14 +80,14 @@ class _HomePageState extends State<HomePage> {
                   color: navbarIconColor),
             ),
             Text(
-              user.email ?? 'N/A', // Provide a default value ('N/A' in this case)
+              user.email ??
+                  'N/A', // Provide a default value ('N/A' in this case)
               style: GoogleFonts.plusJakartaSans(
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
                 color: titleContentColor,
               ),
             ),
-
           ],
         ),
         actions: [
@@ -95,18 +95,19 @@ class _HomePageState extends State<HomePage> {
             icon: const Icon(
               Icons.exit_to_app,
               color: navbarIconColor,
+              semanticLabel: 'log out',
             ),
             onPressed: () async {
               await auth.signOut();
               Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => WillPopScope(
-                          onWillPop: () async {
-                            return false;
-                          },
-                          child: const WelcomePage(),
-              )));
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => WillPopScope(
+                            onWillPop: () async {
+                              return false;
+                            },
+                            child: const WelcomePage(),
+                          )));
             },
           ),
         ],

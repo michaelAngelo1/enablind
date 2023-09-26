@@ -11,22 +11,20 @@ class SavedSeeker extends StatefulWidget {
 class _SavedSeekerState extends State<SavedSeeker> {
   @override
   Widget build(BuildContext context) {
-    return  Container(
+    return Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
-      decoration: BoxDecoration(
-        color: topbarColor,
+      decoration: const BoxDecoration(
+        color: titleJobCardColor,
       ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 14),
+      child: const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 14),
         child: SingleChildScrollView(
           child: Column(
-            children: <Widget>[
-              
-            ]
-          )
-        )
-      )
+            children: <Widget>[],
+          ),
+        ),
+      ),
     );
   }
 }
