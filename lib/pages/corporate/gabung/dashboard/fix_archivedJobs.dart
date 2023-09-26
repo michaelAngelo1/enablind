@@ -4,6 +4,7 @@ import 'package:login_app/components/jobs/jobCardComponent.dart';
 import 'package:login_app/components/newJobCard.dart';
 import 'package:login_app/models/joblisting.dart';
 import 'package:login_app/test/corporate/test_corporate_landing_page_tabs/test_corporate_active_jobs/test_corporate_job_details.dart';
+import 'package:login_app/variables.dart';
 
 class ArchivedJobsTab extends StatefulWidget {
   const ArchivedJobsTab({super.key});
@@ -108,11 +109,16 @@ class _ArchivedJobsTabState extends State<ArchivedJobsTab> {
             }
 
             if (jobListWidgets.isEmpty) {
-              jobListWidgets.add(Center(
-                  child: Text(
-                'No archived jobs',
-                style: TextStyle(color: Colors.white),
-              )));
+              jobListWidgets.add(
+                const Text(
+                  "No archived jobs.",
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w500,
+                    color: titleContentColor,
+                  ),
+                ),
+              );
             }
 
             return Expanded(

@@ -37,28 +37,12 @@ class ExploreSeeker extends StatelessWidget {
               const SizedBox(height: 15.0),
 
               // Title JobList
-              Row(
-                children: [
-                  Text("Popular Jobs",
-                      style: GoogleFonts.plusJakartaSans(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w600,
-                        color: titleContentColor,
-                      )),
-                  Expanded(
-                      flex: 2,
-                      child: Container(
-                        color: Colors.transparent,
-                        width: 20,
-                      )),
-                  Text("See all",
-                      style: GoogleFonts.plusJakartaSans(
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w600,
-                        color: Color(0xffb404040),
-                      ))
-                ],
-              ),
+              Text("Popular Jobs",
+                  style: GoogleFonts.plusJakartaSans(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w600,
+                    color: titleContentColor,
+                  )),
 
               const SizedBox(height: 16.0),
 
@@ -104,10 +88,13 @@ class ExploreSeeker extends StatelessWidget {
                                   return const SizedBox.shrink();
                                 }
 
-                                final companyLogo = corpData['logoUrl'] as String?;
-                                final companyName = corpData['corporationName'] as String?;
+                                final companyLogo =
+                                    corpData['logoUrl'] as String?;
+                                final companyName =
+                                    corpData['corporationName'] as String?;
 
-                                if (companyLogo == null || companyName == null) {
+                                if (companyLogo == null ||
+                                    companyName == null) {
                                   // Handle null data for logoUrl and corporationName gracefully
                                   return const SizedBox.shrink();
                                 }

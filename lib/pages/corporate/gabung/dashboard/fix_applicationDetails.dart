@@ -89,7 +89,10 @@ class _ApplicationsDetailState extends State<ApplicationsDetail> {
                         child: Text('Error: ${jobseekerSnapshot.error}'));
                   } else if (!jobseekerSnapshot.hasData) {
                     return const Center(
-                        child: Text('No applicant data available'));
+                        child: Text(
+                      'No applicant yet',
+                      style: TextStyle(color: Colors.white),
+                    ));
                   } else {
                     final jobseekerData =
                         jobseekerSnapshot.data!.data() as Map<String, dynamic>;
