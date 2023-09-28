@@ -1,27 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:login_app/models/joblisting.dart';
+import 'package:login_app/models/applicant.dart';
+import 'package:login_app/models/jobseeker.dart';
+import 'package:login_app/pages/corporate/applicantDetail_page.dart';
+import 'package:login_app/pages/corporate/gabung/dashboard/fix_applicationDetails.dart';
+import 'package:login_app/test/corporate/test_corporate_landing_page_tabs/test_corporate_applicants/test_corporate_job_application_details.dart';
 import 'package:login_app/variables.dart';
 
 class UpdatesCard extends StatelessWidget {
-  final Joblisting job;
-  final bool newUpdate;
+  final Map<String, dynamic> jobApplication;
+  final String jobApplicationId;
   const UpdatesCard({
     super.key,
-    required this.job,
-    required this.newUpdate,
+    required this.jobApplication,
+    required this.jobApplicationId,
   });
+
+  String getStatusText(int status) {
+      switch (status) {
+        case 1:
+          return 'Pending';
+        case 2:
+          return 'Accept for Interview';
+        case 3:
+          return 'Final Accept';
+        default:
+          return 'Reject';
+      }
+    }
 
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
+    int status = jobApplication['status'];
+
     return Row(
       children: [
-        GestureDetector(
-          onTap: () {
-            // Navigate to the destination page
-          },
-          child: Container(
+        Container(
               width: screenWidth - 28,
               height: 120,
               padding: const EdgeInsets.only(
@@ -52,7 +67,7 @@ class UpdatesCard extends StatelessWidget {
                           width: 50,
                           height: 50,
                           child: Image.network(
-                            job.corpLogo,
+                            'https://firebasestorage.googleapis.com/v0/b/enablind-db.appspot.com/o/profile-icon-vector.jpg?alt=media&token=cb2412e9-ebab-436f-9cc7-dba272337d40', // to-do change
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -62,18 +77,18 @@ class UpdatesCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            job.corpName,
-                            style: GoogleFonts.plusJakartaSans(
-                              color: titleJobCardColor,
-                              fontSize: 16,
-                            ),
-                          ),
-                          Text(
-                            job.jobTitle,
+                            jobApplication['fullName'] ?? '',
                             style: GoogleFonts.plusJakartaSans(
                                 color: titleJobCardColor,
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            jobApplication['role'] ?? '',
+                            style: GoogleFonts.plusJakartaSans(
+                              color: titleJobCardColor,
+                              fontSize: 16,
+                            ),
                           ),
                         ],
                       ),
@@ -82,19 +97,25 @@ class UpdatesCard extends StatelessWidget {
                   const SizedBox(height: 12),
                   FractionallySizedBox(
                     widthFactor: 1.0,
-                    child: Text(
-                      newUpdate
-                          ? 'You got new update'
-                          : 'You haven\'t got any updates',
-                      style: const TextStyle(
+                    child: Container(
+                      height: 30,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
                         color: Colors.black,
-                        fontSize: 16,
+                      ),
+                      child: Center(
+                        child: Text(
+                          getStatusText(status),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                          ),
+                        ),
                       ),
                     ),
                   )
                 ],
               )),
-        ),
       ],
     );
   }
