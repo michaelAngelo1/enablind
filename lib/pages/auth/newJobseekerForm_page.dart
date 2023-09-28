@@ -1,11 +1,13 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:login_app/components/backgroundPage.dart';
 import 'package:login_app/components/buttons/yellowButton.dart';
 import 'package:login_app/components/formBox.dart';
+import 'package:login_app/firebase/cloud_storage.dart';
 import 'package:login_app/pages/home/home_page.dart';
-import 'package:login_app/test/jobseeker/test_jobseeker_bottom_navbar.dart';
 import 'package:login_app/variables.dart';
 
 class NewJobseekerForm extends StatefulWidget {
@@ -24,6 +26,8 @@ class NewJobseekerFormState extends State<NewJobseekerForm> {
   String phoneNumber = "";
   DateTime? dateOfBirth;
   String gender = "";
+  // ON CONFLICTS, ACCEPT INCOMING
+  late List<String> savedJobs;
   Timestamp? registrationDate;
 
   final TextEditingController _dateOfBirthController = TextEditingController();
@@ -46,6 +50,7 @@ class NewJobseekerFormState extends State<NewJobseekerForm> {
 
   @override
   Widget build(BuildContext context) {
+    final Storage cloud = Storage();
     return BackgroundTemplate(
       title: 'Jobseeker Data Form',
       child: Form(
@@ -107,6 +112,50 @@ class NewJobseekerFormState extends State<NewJobseekerForm> {
                 ),
                 readOnly: true,
               ),
+              const SizedBox(height: 24),
+              SizedBox(
+                height: 50,
+                width: 450,
+                child: TextButton(
+                  // UPLOAD IMAGE PROCESSING
+                  onPressed: () async {
+                    final results = await FilePicker.platform.pickFiles(
+                      allowMultiple: false,
+                      type: FileType.custom,
+                      allowedExtensions: ['pdf'],
+                    );
+                    
+                    if (results == null) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("No file selected"),
+                        ),
+                      );
+                      return null;
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("SKD uploaded successfully"),
+                        ),
+                      );
+                    }
+                    
+                    final path = results.files.single.bytes;
+                    
+                    final usernameAsFilename = auth.currentUser!.uid;
+                    
+                    cloud.handleUploadPDF(path, usernameAsFilename);
+                  },
+                  child: Text(
+                    "Add Surat Keterangan Disabilitas",
+                    style: GoogleFonts.plusJakartaSans(
+                      color: accentColor,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 16,
+                    )
+                  ),
+                ),
+              ),
               const SizedBox(height: 4),
               Row(
                 children: <Widget>[
@@ -142,6 +191,25 @@ class NewJobseekerFormState extends State<NewJobseekerForm> {
                     'Female',
                     style: TextStyle(color: Colors.white),
                   ),
+                  Expanded(
+                    flex: 2,
+                    child: Container(
+                      color: Colors.transparent,
+                    )
+                  ),
+                  TextButton(
+                    onPressed: () {},
+                    child: Container(
+                      child: Text(
+                        "View SKD",
+                        style: GoogleFonts.plusJakartaSans(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w400,
+                          color: accentColor,
+                        )
+                      )
+                    )
+                  )
                 ],
               ),
               const SizedBox(height: 24),
@@ -176,7 +244,9 @@ class NewJobseekerFormState extends State<NewJobseekerForm> {
         'gender': gender,
         'registrationDate': registrationDate,
         'userType': 'jobseeker',
-        'hasRegistered': true
+        'hasRegistered': true,
+        'savedJobs': ['123'],
+        // TAMBAHIN FIELD savedJobs[] ?
       };
 
       try {

@@ -38,7 +38,9 @@ class Storage {
           await fsdb.collection('Users/Role/Jobseekers').doc(uidFilename).get();
       final corporateDoc =
           await fsdb.collection('Users/Role/Corporations').doc(uidFilename).get();
+
       var photoRef;
+
       if(jobseekerDoc.exists) {
         photoRef = storage.ref().child("users/jobseeker/$uidFilename");
       } else if(corporateDoc.exists) {
@@ -52,6 +54,22 @@ class Storage {
     } catch (e) {
       print("Error getting image URL: $e");
       return 'Error getting image';
+    }
+  }
+
+  Future<void> handleUploadPDF(
+    final filebytes,
+    final filename,
+  ) async {
+
+    try {
+      final skdFilename = "SKD $filename";
+      await storage.ref('users/jobseeker/$skdFilename').putData(filebytes);
+
+      final pdfRef = await storage.ref("users/jobseeker/$skdFilename").getDownloadURL();
+      print(pdfRef);
+    } on core.FirebaseException catch(e) {
+      print("ERROR SKD UPLOAD $e");
     }
   }
 }

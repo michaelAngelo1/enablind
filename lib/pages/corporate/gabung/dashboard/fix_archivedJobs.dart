@@ -83,6 +83,8 @@ class _ArchivedJobsTabState extends State<ArchivedJobsTab> {
             for (var i = 0; i < jobListings.length; i++) {
               final jobListing = jobListings[i].data() as Map<String, dynamic>;
               final companyData = corporateDataList[i];
+              // ON CONFLICTS, ACCEPT INCOMING
+              final jobDocID = jobListings[i].id;
 
               final companyName = companyData['corporationName'] ?? '';
               final companyLogo = companyData['logoUrl'] ?? '';
@@ -96,6 +98,7 @@ class _ArchivedJobsTabState extends State<ArchivedJobsTab> {
                     children: [
                       NewJobCard(
                         job: jobListing,
+                        jobDocID: jobDocID,
                         companyLogo: companyLogo,
                         companyName: companyName,
                         enableBookmark: false,

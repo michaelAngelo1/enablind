@@ -11,6 +11,7 @@ class Joblisting {
   bool isFreelance;
   Timestamp jobListingPublishDate = Timestamp.now();
   Timestamp? jobListingCloseDate;
+  List<dynamic> isBookmarked;
 
   // Named constructor with default values
   Joblisting({
@@ -23,5 +24,6 @@ class Joblisting {
     this.corpName = '',
     this.isFreelance = false,
     Timestamp? jobListingCloseDate,
+    this.isBookmarked = const [],
   }) : jobListingCloseDate = null;
 }

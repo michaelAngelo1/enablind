@@ -81,7 +81,10 @@ class ExploreSeeker extends StatelessWidget {
                                 final corpData = corpSnapshot.data!.data()
                                     as Map<String, dynamic>;
                                 final jobData =
-                                    document.data() as Map<String, dynamic>;
+                                    document.data();
+
+                                // ON CONFLICTS, ACCEPT INCOMING 
+                                final jobDocID = document.id;
 
                                 if (corpData == null || jobData == null) {
                                   // Handle null data gracefully
@@ -103,6 +106,7 @@ class ExploreSeeker extends StatelessWidget {
                                   children: [
                                     NewJobCard(
                                       job: jobData,
+                                      jobDocID: jobDocID,
                                       companyLogo: companyLogo,
                                       companyName: companyName,
                                     ),

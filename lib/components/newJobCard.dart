@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:login_app/firebase/db_instance.dart';
 import 'package:login_app/models/joblisting.dart';
 import 'package:login_app/pages/jobseeker/jobDetailSeeker_page.dart';
 import 'package:login_app/pages/newJobDetail_page.dart';
@@ -11,11 +13,13 @@ class NewJobCard extends StatefulWidget {
   final bool isClosed;
   final String companyName;
   final String companyLogo;
+  final String jobDocID;
   const NewJobCard({
     super.key,
     required this.job,
     required this.companyName,
     required this.companyLogo,
+    required this.jobDocID,
     this.enableBookmark = true,
     this.isClosed = false,
   });
@@ -24,6 +28,7 @@ class NewJobCard extends StatefulWidget {
   State<NewJobCard> createState() => _NewJobCardState();
 }
 
+var firebaseToggleSaved = false;
 class _NewJobCardState extends State<NewJobCard> {
   bool isBookmarked = false;
 
@@ -150,7 +155,25 @@ class _NewJobCardState extends State<NewJobCard> {
                 onTap: () {
                   // to-do handle tap
                   setState(() {
-                    isBookmarked = !isBookmarked; // Toggle bookmark state
+                    isBookmarked = !isBookmarked; 
+                    // WRITES TO Users/Role/Jobseeker/{currentUID}
+                    String currentUID = auth.currentUser!.uid;
+                    
+                    if(isBookmarked) {
+                      print("JOB SAVED");
+                      fsdb.collection('Users')
+                        .doc("Role/Jobseekers/$currentUID")
+                        .update({
+                          "savedJobs": FieldValue.arrayUnion([widget.jobDocID])
+                      });
+                    } else {
+                      print("JOB UNSAVED");
+                      fsdb.collection('Users')
+                        .doc("Role/Jobseekers/$currentUID")
+                        .update({
+                          "savedJobs": FieldValue.arrayRemove([widget.jobDocID])
+                      });
+                    }
                   });
                 },
                 child: Container(
@@ -169,7 +192,7 @@ class _NewJobCardState extends State<NewJobCard> {
                     ],
                   ),
                   child: Icon(
-                      isBookmarked
+                      isBookmarked 
                           ? Icons.bookmark
                           : Icons.bookmark_border_outlined,
                       color: Colors.black,
