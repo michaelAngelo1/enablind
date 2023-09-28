@@ -103,6 +103,7 @@ class _ArchivedJobsTabState extends State<ArchivedJobsTab> {
                         companyName: companyName,
                         enableBookmark: false,
                         isClosed: true,
+                        isBookmarked: false,
                       ),
                       SizedBox(height: 16),
                     ],
