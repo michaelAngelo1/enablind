@@ -6,6 +6,8 @@ import 'package:login_app/pages/corporate/applicantDetail_page.dart';
 import 'package:login_app/pages/corporate/gabung/dashboard/fix_applicationDetails.dart';
 import 'package:login_app/test/corporate/test_corporate_landing_page_tabs/test_corporate_applicants/test_corporate_job_application_details.dart';
 import 'package:login_app/variables.dart';
+import 'package:login_app/firebase/cloud_storage.dart';
+import 'package:login_app/firebase/db_instance.dart';
 
 class ApplicantCard extends StatelessWidget {
   final Map<String, dynamic> jobApplication;
@@ -18,6 +20,7 @@ class ApplicantCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Storage cloud = Storage();
     double screenWidth = MediaQuery.of(context).size.width;
     return Row(
       children: [
@@ -60,17 +63,66 @@ class ApplicantCard extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: SizedBox(
-                          width: 50,
-                          height: 50,
-                          child: Image.network(
-                            'https://firebasestorage.googleapis.com/v0/b/enablind-db.appspot.com/o/profile-icon-vector.jpg?alt=media&token=cb2412e9-ebab-436f-9cc7-dba272337d40', // to-do change
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
+                      FutureBuilder<String>(
+                          future:
+                              cloud.handleImageURL(jobApplication['uidUser']),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.done) {
+                              if (snapshot.hasError) {
+                                return Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: cardJobListColor,
+                                  ),
+                                  width: 50,
+                                  height: 50,
+                                  child: Icon(
+                                    Icons.person_2_outlined,
+                                    color: titleContentColor,
+                                  ),
+                                );
+                              }
+                              final imageURL = snapshot.data;
+                              print(imageURL);
+                              if (imageURL != 'Error getting image') {
+                                return ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Container(
+                                    width: 50,
+                                    height: 50,
+                                    child: Image.network(
+                                      imageURL!,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                );
+                              } else {
+                                print("masuk else sizedbox");
+                                return Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: cardJobListColor,
+                                  ),
+                                  width: 50,
+                                  height: 50,
+                                  child: Icon(
+                                    Icons.person_2_outlined,
+                                    color: titleContentColor,
+                                  ),
+                                );
+                              }
+                            } else {
+                              return const SizedBox(
+                                width: 50,
+                                height: 50,
+                                child: Icon(
+                                  Icons.person_2_outlined,
+                                  color: titleContentColor,
+                                ),
+                              );
+                            }
+                          }),
                       const SizedBox(width: 18),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

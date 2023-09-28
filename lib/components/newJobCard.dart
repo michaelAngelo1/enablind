@@ -29,6 +29,7 @@ class NewJobCard extends StatefulWidget {
 }
 
 var firebaseToggleSaved = false;
+
 class _NewJobCardState extends State<NewJobCard> {
   bool isBookmarked = false;
 
@@ -42,12 +43,12 @@ class _NewJobCardState extends State<NewJobCard> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => NewJobDetailPage(
-                      job: widget.job,
-                      corpName: widget.companyName,
-                      isJobseeker: widget.enableBookmark,
-                      isClosed: widget.isClosed,
-                    )),
+                  builder: (context) => NewJobDetailPage(
+                        job: widget.job,
+                        corpName: widget.companyName,
+                        isJobseeker: widget.enableBookmark,
+                        isClosed: widget.isClosed,
+                      )),
             );
           },
           child: Container(
@@ -155,23 +156,25 @@ class _NewJobCardState extends State<NewJobCard> {
                 onTap: () {
                   // to-do handle tap
                   setState(() {
-                    isBookmarked = !isBookmarked; 
+                    isBookmarked = !isBookmarked;
                     // WRITES TO Users/Role/Jobseeker/{currentUID}
                     String currentUID = auth.currentUser!.uid;
-                    
-                    if(isBookmarked) {
+
+                    if (isBookmarked) {
                       print("JOB SAVED");
-                      fsdb.collection('Users')
-                        .doc("Role/Jobseekers/$currentUID")
-                        .update({
-                          "savedJobs": FieldValue.arrayUnion([widget.jobDocID])
+                      fsdb
+                          .collection('Users')
+                          .doc("Role/Jobseekers/$currentUID")
+                          .update({
+                        "savedJobs": FieldValue.arrayUnion([widget.jobDocID])
                       });
                     } else {
                       print("JOB UNSAVED");
-                      fsdb.collection('Users')
-                        .doc("Role/Jobseekers/$currentUID")
-                        .update({
-                          "savedJobs": FieldValue.arrayRemove([widget.jobDocID])
+                      fsdb
+                          .collection('Users')
+                          .doc("Role/Jobseekers/$currentUID")
+                          .update({
+                        "savedJobs": FieldValue.arrayRemove([widget.jobDocID])
                       });
                     }
                   });
@@ -192,7 +195,7 @@ class _NewJobCardState extends State<NewJobCard> {
                     ],
                   ),
                   child: Icon(
-                      isBookmarked 
+                      isBookmarked
                           ? Icons.bookmark
                           : Icons.bookmark_border_outlined,
                       color: Colors.black,

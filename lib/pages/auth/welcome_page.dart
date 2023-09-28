@@ -85,7 +85,7 @@ class WelcomePage extends StatelessWidget {
                     padding: EdgeInsets.symmetric(horizontal: 12),
                     color: bgColor,
                     child: const Text(
-                      'or log in with',
+                      'or',
                       style: TextStyle(
                         color: Color.fromARGB(255, 218, 213, 213),
                       ),
@@ -94,38 +94,55 @@ class WelcomePage extends StatelessWidget {
                 ),
               ]),
               SizedBox(height: 18),
-              GoogleButton(),
-              SizedBox(height: 18),
-              Row(
-                children: [
-                  Text(
-                    'Already have an account? ',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
+              TextButton(
+                onPressed: () {
+                  print('log in button clicked');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => LoginEmailPage(),
+                    ),
+                  );
+                },
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(accentColor),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      print('login clicked');
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => LoginEmailPage(),
-                        ),
-                      );
-                    },
-                    child: Text(
-                      'Log In ',
-                      style: TextStyle(
-                        color: accentColor,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                  fixedSize: MaterialStateProperty.all<Size>(
+                    Size(screenWidth - 48, 55),
+                  ),
+                ),
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 18),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Icon(
+                        Icons.person_outline,
+                        color: Colors.black,
+                        size: 24,
                       ),
-                    ),
+                      SizedBox(width: 8),
+                      Expanded(
+                        child: Center(
+                          child: Text(
+                            'Log in',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              )
+                ),
+              ),
+              SizedBox(height: 18),
             ],
           ),
         ),
