@@ -31,6 +31,7 @@ class NewJobCard extends StatefulWidget {
 }
 
 var firebaseToggleSaved = false;
+
 class _NewJobCardState extends State<NewJobCard> {
 
   @override
@@ -43,12 +44,12 @@ class _NewJobCardState extends State<NewJobCard> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => NewJobDetailPage(
-                      job: widget.job,
-                      corpName: widget.companyName,
-                      isJobseeker: widget.enableBookmark,
-                      isClosed: widget.isClosed,
-                    )),
+                  builder: (context) => NewJobDetailPage(
+                        job: widget.job,
+                        corpName: widget.companyName,
+                        isJobseeker: widget.enableBookmark,
+                        isClosed: widget.isClosed,
+                      )),
             );
           },
           child: Container(
@@ -162,17 +163,19 @@ class _NewJobCardState extends State<NewJobCard> {
                     
                     if(widget.isBookmarked) {
                       print("JOB SAVED");
-                      fsdb.collection('Users')
-                        .doc("Role/Jobseekers/$currentUID")
-                        .update({
-                          "savedJobs": FieldValue.arrayUnion([widget.jobDocID])
+                      fsdb
+                          .collection('Users')
+                          .doc("Role/Jobseekers/$currentUID")
+                          .update({
+                        "savedJobs": FieldValue.arrayUnion([widget.jobDocID])
                       });
                     } else {
                       print("JOB UNSAVED");
-                      fsdb.collection('Users')
-                        .doc("Role/Jobseekers/$currentUID")
-                        .update({
-                          "savedJobs": FieldValue.arrayRemove([widget.jobDocID])
+                      fsdb
+                          .collection('Users')
+                          .doc("Role/Jobseekers/$currentUID")
+                          .update({
+                        "savedJobs": FieldValue.arrayRemove([widget.jobDocID])
                       });
                     }
                   });
