@@ -111,6 +111,7 @@ class _CorpActiveJobsState extends State<CorpActiveJobs> {
                         companyLogo: companyLogo,
                         companyName: companyName,
                         enableBookmark: false,
+                        isBookmarked: false,
                       ),
                       const SizedBox(height: 16),
                     ],

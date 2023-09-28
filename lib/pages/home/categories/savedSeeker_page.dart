@@ -146,6 +146,7 @@ class _SavedSeekerState extends State<SavedSeeker> {
                                             jobDocID: jobDocID,
                                             companyLogo: companyLogo,
                                             companyName: companyName,
+                                            isBookmarked: true,
                                           ),
                                           const SizedBox(height: 16.0),
                                         ],

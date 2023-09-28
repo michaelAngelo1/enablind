@@ -6,8 +6,21 @@ import 'package:login_app/firebase/db_instance.dart';
 import 'package:login_app/models/joblisting.dart';
 import 'package:login_app/variables.dart';
 
+Future<List<String>> getSavedJobs() async {
+  final currUser = auth.currentUser!.uid;
+  final snapshot = await fsdb.collection('Users').doc('Role/Jobseekers/$currUser').get();
+  
+  if(snapshot.exists) {
+    print("snapshot SAVEDJOBS exists");
+    final data = snapshot.data() as Map<String, dynamic>;
+    final savedJobs = data['savedJobs'] as List<dynamic>;
+    return savedJobs.map((job) => job.toString()).toList();
+  }
+  return [];
+}
+
 // ignore: must_be_immutable
-class ExploreSeeker extends StatelessWidget {
+class ExploreSeeker extends StatefulWidget {
   ExploreSeeker({
     super.key,
     required this.screenHeight,
@@ -20,13 +33,40 @@ class ExploreSeeker extends StatelessWidget {
   late List<Joblisting> jobList;
 
   @override
+  State<ExploreSeeker> createState() => _ExploreSeekerState();
+}
+
+class _ExploreSeekerState extends State<ExploreSeeker> {
+  // SHOW SAVED JOBS AS WELL
+  final bookmarkedJobRef = fsdb.collection('Jobs');
+
+  List<String> savedJobs = [];
+
+  Future<void> _refresh() {
+    return Future.delayed(
+      Duration(seconds: 2),
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // Call getSavedJobs to retrieve the saved jobs when the widget initializes
+    getSavedJobs().then((jobs) {
+      setState(() {
+        savedJobs = jobs;
+      });
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
         color: titleJobCardColor,
       ),
-      height: screenHeight,
-      width: screenWidth,
+      height: widget.screenHeight,
+      width: widget.screenWidth,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 14.0),
         child: SingleChildScrollView(
@@ -57,9 +97,14 @@ class ExploreSeeker extends StatelessWidget {
                   } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
                     return const Center(child: Text('No data available'));
                   } else {
+                    final jobs = snapshot.data!.docs;
+                    final filteredJobs = jobs.where((document) {
+                      final jobDocID = document.id;
+                      return savedJobs.contains(jobDocID);
+                    }).toList();
                     return Column(
                       children: [
-                        for (var document in snapshot.data!.docs)
+                        for (var document in jobs)
                           FutureBuilder(
                             future: fsdb
                                 .collection('/Users/Role/Corporations/')
@@ -102,6 +147,21 @@ class ExploreSeeker extends StatelessWidget {
                                   return const SizedBox.shrink();
                                 }
 
+                                if(filteredJobs.contains(document)) {
+                                  print("masuk filtered jobs");
+                                  return Column(
+                                    children: [
+                                      NewJobCard(
+                                        job: jobData,
+                                        jobDocID: jobDocID,
+                                        companyLogo: companyLogo,
+                                        companyName: companyName,
+                                        isBookmarked: true,
+                                      ),
+                                      const SizedBox(height: 16.0),
+                                    ],
+                                  );
+                                }
                                 return Column(
                                   children: [
                                     NewJobCard(
@@ -109,6 +169,7 @@ class ExploreSeeker extends StatelessWidget {
                                       jobDocID: jobDocID,
                                       companyLogo: companyLogo,
                                       companyName: companyName,
+                                      isBookmarked: false,
                                     ),
                                     const SizedBox(height: 16.0),
                                   ],
