@@ -87,7 +87,8 @@ class _ArchivedJobsTabState extends State<ArchivedJobsTab> {
               final jobDocID = jobListings[i].id;
 
               final companyName = companyData['corporationName'] ?? '';
-              final companyLogo = companyData['logoUrl'] ?? '';
+              final companyLogo = companyData['logoUrl'] ??
+                  'https://firebasestorage.googleapis.com/v0/b/enablind-db.appspot.com/o/profile-icon-vector.jpg?alt=media&token=cb2412e9-ebab-436f-9cc7-dba272337d40';
 
               if (jobListing['jobListingCloseDate'] != null &&
                   jobListing['jobListingCloseDate']
