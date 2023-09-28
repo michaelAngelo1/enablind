@@ -104,7 +104,7 @@ class ApplicantCard extends StatelessWidget {
                       ),
                       child: Center(
                         child: Text(
-                          jobApplication['role'],
+                          jobApplication['role'] ?? '',
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 14,

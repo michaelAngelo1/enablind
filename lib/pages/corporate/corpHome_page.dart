@@ -81,6 +81,7 @@ class _CorpHomePageState extends State<CorpHomePage> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
+        backgroundColor: accentColor,
         onPressed: () {
           // Navigate to the Create Job page when the button is pressed
           print('masuksini');

@@ -59,8 +59,14 @@ class _NewJobDetailPageState extends State<NewJobDetailPage>
             });
           },
           icon: saved
-              ? const Icon(Icons.bookmark)
-              : const Icon(Icons.bookmark_outline),
+              ? const Icon(
+                  Icons.bookmark,
+                  semanticLabel: 'click to remove saved job',
+                )
+              : const Icon(
+                  Icons.bookmark_outline,
+                  semanticLabel: 'click to save job',
+                ),
         ),
       ],
       child: Stack(

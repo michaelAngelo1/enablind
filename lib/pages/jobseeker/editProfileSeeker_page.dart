@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:login_app/components/backgroundPage.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:login_app/components/buttons/bottomButton.dart';
@@ -16,12 +18,42 @@ class editProfileSeeker extends StatefulWidget {
 
 class _editProfileSeekerState extends State<editProfileSeeker> {
 
+  final editJobseekerRef = fsdb.collection('Users/Role/Jobseekers').doc(auth.currentUser!.uid);
+
   final _fullNameController = TextEditingController();
   final _genderController = TextEditingController();
   final _dobController = TextEditingController();
   final _phoneNumberController = TextEditingController();
+  
+  @override
 
-  final editJobseekerRef = fsdb.collection('Users/Role/Jobseekers').doc(auth.currentUser!.uid);
+  void initState() {
+    super.initState();
+    // Fetch data from Firestore and populate the text controllers
+    editJobseekerRef.get().then((documentSnapshot) {
+      if (documentSnapshot.exists) {
+        final data = documentSnapshot.data() as Map<String, dynamic>;
+        setState(() {
+          _fullNameController.text = data['fullName'] ?? '';
+          _genderController.text = data['gender'] ?? '';
+          
+            // Check if 'dateOfBirth' is already a string or a timestamp
+          final dynamic dobData = data['dateOfBirth'];
+          if (dobData is String) {
+            // 'dateOfBirth' is already a string
+            _dobController.text = dobData;
+          } else if (dobData is Timestamp) {
+            // 'dateOfBirth' is a timestamp, so convert it to a human-readable date format
+            final timestamp = dobData as Timestamp;
+            final dob = DateTime.fromMillisecondsSinceEpoch(timestamp.millisecondsSinceEpoch);
+            _dobController.text = DateFormat('yyyy-MM-dd').format(dob); // You can change the date format as needed
+          }
+
+          _phoneNumberController.text = data['phoneNumber'] ?? '';
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

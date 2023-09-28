@@ -18,7 +18,7 @@ class AboutEnablind extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenSize = MediaQuery.of(context).size.width;
     return BackgroundTemplate(
-      title: 'About Enabilnd',
+      title: 'About Enablind',
       child: SingleChildScrollView(
         child: Column(
           children: [
