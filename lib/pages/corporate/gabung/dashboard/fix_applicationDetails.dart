@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:login_app/components/backgroundPage.dart';
+import 'package:login_app/firebase/cloud_storage.dart';
 import 'package:login_app/firebase/db_instance.dart';
+import 'package:login_app/variables.dart';
 
 class ApplicationsDetail extends StatefulWidget {
   final Map<String, dynamic> jobApplication;
@@ -52,6 +54,7 @@ class _ApplicationsDetailState extends State<ApplicationsDetail> {
 
   @override
   Widget build(BuildContext context) {
+    final Storage cloud = Storage();
     final int status = widget.jobApplication['status'];
 
     String getStatusText(int status) {
@@ -101,17 +104,66 @@ class _ApplicationsDetailState extends State<ApplicationsDetail> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Center(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: SizedBox(
-                              width: 72,
-                              height: 72,
-                              child: Image.network(
-                                'https://firebasestorage.googleapis.com/v0/b/enablind-db.appspot.com/o/profile-icon-vector.jpg?alt=media&token=cb2412e9-ebab-436f-9cc7-dba272337d40',
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
+                          child: FutureBuilder<String>(
+                              future: cloud.handleImageURL(
+                                  widget.jobApplication['uidUser']),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.done) {
+                                  if (snapshot.hasError) {
+                                    return Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: cardJobListColor,
+                                      ),
+                                      width: 50,
+                                      height: 50,
+                                      child: Icon(
+                                        Icons.person_2_outlined,
+                                        color: titleContentColor,
+                                      ),
+                                    );
+                                  }
+                                  final imageURL = snapshot.data;
+                                  print(imageURL);
+                                  if (imageURL != 'Error getting image') {
+                                    return ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: Container(
+                                        width: 50,
+                                        height: 50,
+                                        child: Image.network(
+                                          imageURL!,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    );
+                                  } else {
+                                    print("masuk else sizedbox");
+                                    return Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: cardJobListColor,
+                                      ),
+                                      width: 50,
+                                      height: 50,
+                                      child: Icon(
+                                        Icons.person_2_outlined,
+                                        color: titleContentColor,
+                                      ),
+                                    );
+                                  }
+                                } else {
+                                  return const SizedBox(
+                                    width: 50,
+                                    height: 50,
+                                    child: Icon(
+                                      Icons.person_2_outlined,
+                                      color: titleContentColor,
+                                    ),
+                                  );
+                                }
+                              }),
                         ),
                         const SizedBox(height: 16.0),
                         Center(
@@ -145,7 +197,7 @@ class _ApplicationsDetailState extends State<ApplicationsDetail> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Phone: ${widget.jobApplication['phone']}',
+                      'Phone: ${widget.jobApplication['phone'] ?? ''}',
                       style: TextStyle(
                         fontSize: 14,
                         color: Color(0xffbf7f8f9),
@@ -153,7 +205,7 @@ class _ApplicationsDetailState extends State<ApplicationsDetail> {
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      'Address: ${widget.jobApplication['address']}',
+                      'Address: ${widget.jobApplication['address'] ?? ''}',
                       style: TextStyle(
                         fontSize: 14,
                         color: Color(0xffbf7f8f9),
@@ -169,7 +221,7 @@ class _ApplicationsDetailState extends State<ApplicationsDetail> {
                       ),
                     ),
                     Text(
-                      widget.jobApplication['summary'],
+                      widget.jobApplication['summary'] ?? '',
                       style: TextStyle(
                         fontSize: 14,
                         color: Color(0xffbf7f8f9),
@@ -184,8 +236,9 @@ class _ApplicationsDetailState extends State<ApplicationsDetail> {
                         color: Color(0xffbf7f8f9),
                       ),
                     ),
-                    for (final education in (widget.jobApplication['education']
-                        as List<dynamic>))
+                    for (final education
+                        in (widget.jobApplication['education'] ??
+                            '' as List<dynamic>))
                       Padding(
                         padding: const EdgeInsets.only(left: 16.0),
                         child: Text(
@@ -205,8 +258,9 @@ class _ApplicationsDetailState extends State<ApplicationsDetail> {
                         color: Color(0xffbf7f8f9),
                       ),
                     ),
-                    for (final experience in (widget
-                        .jobApplication['experience'] as List<dynamic>))
+                    for (final experience
+                        in (widget.jobApplication['experience'] ??
+                            '' as List<dynamic>))
                       Padding(
                         padding: const EdgeInsets.only(left: 16.0),
                         child: Text(

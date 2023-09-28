@@ -33,6 +33,7 @@ class _CorpActiveJobsState extends State<CorpActiveJobs> {
         .map((snapshot) => snapshot.data() as Map<String, dynamic>)
         .toList();
   }
+
   final FirebaseAuth _auth = FirebaseAuth.instance;
   late User? _currentUser;
 
@@ -46,7 +47,10 @@ class _CorpActiveJobsState extends State<CorpActiveJobs> {
   Widget build(BuildContext context) {
     final Timestamp currentTime = Timestamp.now();
     return StreamBuilder(
-      stream: FirebaseFirestore.instance.collection('Jobs').where('jobCompany', isEqualTo: _currentUser?.uid).snapshots(),
+      stream: FirebaseFirestore.instance
+          .collection('Jobs')
+          .where('jobCompany', isEqualTo: _currentUser?.uid)
+          .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return const Center(
@@ -95,7 +99,8 @@ class _CorpActiveJobsState extends State<CorpActiveJobs> {
               final jobDocID = jobListings[i].id;
 
               final companyName = companyData['corporationName'] ?? '';
-              final companyLogo = companyData['logoUrl'] ?? '';
+              final companyLogo = companyData['logoUrl'] ??
+                  'https://firebasestorage.googleapis.com/v0/b/enablind-db.appspot.com/o/profile-icon-vector.jpg?alt=media&token=cb2412e9-ebab-436f-9cc7-dba272337d40';
 
               if (jobListing['jobListingCloseDate'] == null ||
                   jobListing['jobListingCloseDate']

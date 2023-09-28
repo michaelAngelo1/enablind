@@ -125,10 +125,9 @@ class _ExploreSeekerState extends State<ExploreSeeker> {
                               } else {
                                 final corpData = corpSnapshot.data!.data()
                                     as Map<String, dynamic>;
-                                final jobData =
-                                    document.data();
+                                final jobData = document.data();
 
-                                // ON CONFLICTS, ACCEPT INCOMING 
+                                // ON CONFLICTS, ACCEPT INCOMING
                                 final jobDocID = document.id;
 
                                 if (corpData == null || jobData == null) {
@@ -136,15 +135,18 @@ class _ExploreSeekerState extends State<ExploreSeeker> {
                                   return const SizedBox.shrink();
                                 }
 
-                                final companyLogo =
+                                var companyLogo =
                                     corpData['logoUrl'] as String?;
-                                final companyName =
+                                var companyName =
                                     corpData['corporationName'] as String?;
 
+                                if (companyLogo == null) {
+                                  companyLogo =
+                                      'https://firebasestorage.googleapis.com/v0/b/enablind-db.appspot.com/o/profile-icon-vector.jpg?alt=media&token=cb2412e9-ebab-436f-9cc7-dba272337d40';
+                                }
                                 if (companyLogo == null ||
                                     companyName == null) {
-                                  // Handle null data for logoUrl and corporationName gracefully
-                                  return const SizedBox.shrink();
+                                  companyName = '';
                                 }
 
                                 if(filteredJobs.contains(document)) {

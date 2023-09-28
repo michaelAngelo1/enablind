@@ -42,6 +42,7 @@ class _NewJobDetailPageState extends State<NewJobDetailPage>
       MaterialPageRoute(
         builder: (context) => CvTemplate(
           jobListing: widget.job,
+          role: widget.job['jobTitle'],
         ),
       ),
     );
