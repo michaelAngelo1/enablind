@@ -122,7 +122,7 @@ class _HomePageState extends State<HomePage> {
             jobList: jobList),
 
         // Update Page
-        const UpdatesSeeker(),
+        UpdatesSeeker(),
 
         // Saved Jobs
         const SavedSeeker(),
