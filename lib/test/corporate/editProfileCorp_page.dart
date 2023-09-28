@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:login_app/components/backgroundPage.dart';
@@ -6,6 +7,7 @@ import 'package:login_app/components/buttons/bottomButton.dart';
 import 'package:login_app/firebase/cloud_storage.dart';
 import 'package:login_app/firebase/db_instance.dart';
 import 'package:login_app/variables.dart';
+import 'package:intl/intl.dart';
 
 class editProfileCorp extends StatefulWidget {
   const editProfileCorp({super.key});
@@ -21,7 +23,36 @@ class _editProfileCorpState extends State<editProfileCorp> {
   final _dobController = TextEditingController();
   final _phoneNumberController = TextEditingController();
 
-  final editJobseekerRef = fsdb.collection('Users/Role/Corporate').doc(auth.currentUser!.uid);
+  final editJobseekerRef = fsdb.collection('Users/Role/Corporations').doc(auth.currentUser!.uid);
+
+  @override
+
+  void initState() {
+    super.initState();
+    // Fetch data from Firestore and populate the text controllers
+    editJobseekerRef.get().then((documentSnapshot) {
+      if (documentSnapshot.exists) {
+        final data = documentSnapshot.data() as Map<String, dynamic>;
+        setState(() {
+          _fullNameController.text = data['corporationName'] ?? '';
+          
+            // Check if 'dateOfBirth' is already a string or a timestamp
+          final dynamic dobData = data['foundingDate'];
+          if (dobData is String) {
+            // 'dateOfBirth' is already a string
+            _dobController.text = dobData;
+          } else if (dobData is Timestamp) {
+            // 'dateOfBirth' is a timestamp, so convert it to a human-readable date format
+            final timestamp = dobData as Timestamp;
+            final dob = DateTime.fromMillisecondsSinceEpoch(timestamp.millisecondsSinceEpoch);
+            _dobController.text = DateFormat('yyyy-MM-dd').format(dob); // You can change the date format as needed
+          }
+
+          _phoneNumberController.text = data['phoneNumber'] ?? '';
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -123,7 +154,7 @@ class _editProfileCorpState extends State<editProfileCorp> {
               
                           HelperText(helper: "Founding Date"),
                           const SizedBox(height: 12.0),
-                          EditProfileField(fieldController: _genderController),
+                          EditProfileField(fieldController: _dobController),
               
                           HelperText(helper: "Phone Number"),
                           const SizedBox(height: 12.0),
@@ -134,7 +165,7 @@ class _editProfileCorpState extends State<editProfileCorp> {
                             onPressed: () {
                               editJobseekerRef.update({
                                 'corporationName': _fullNameController.text,
-                                'foundingDate': _genderController.text,
+                                'foundingDate': _dobController.text,
                                 'phoneNumber': _phoneNumberController.text,
                               })
                                 .then((value) => print("Edit profile success"), onError: (e) => print("Error edit profile"));

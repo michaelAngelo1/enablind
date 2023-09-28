@@ -14,7 +14,8 @@ class NewJobCard extends StatefulWidget {
   final String companyName;
   final String companyLogo;
   final String jobDocID;
-  const NewJobCard({
+  bool isBookmarked;
+  NewJobCard({
     super.key,
     required this.job,
     required this.companyName,
@@ -22,6 +23,7 @@ class NewJobCard extends StatefulWidget {
     required this.jobDocID,
     this.enableBookmark = true,
     this.isClosed = false,
+    required this.isBookmarked,
   });
 
   @override
@@ -31,7 +33,6 @@ class NewJobCard extends StatefulWidget {
 var firebaseToggleSaved = false;
 
 class _NewJobCardState extends State<NewJobCard> {
-  bool isBookmarked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -156,11 +157,11 @@ class _NewJobCardState extends State<NewJobCard> {
                 onTap: () {
                   // to-do handle tap
                   setState(() {
-                    isBookmarked = !isBookmarked;
+                    widget.isBookmarked = !widget.isBookmarked; 
                     // WRITES TO Users/Role/Jobseeker/{currentUID}
                     String currentUID = auth.currentUser!.uid;
-
-                    if (isBookmarked) {
+                    
+                    if(widget.isBookmarked) {
                       print("JOB SAVED");
                       fsdb
                           .collection('Users')
@@ -195,12 +196,12 @@ class _NewJobCardState extends State<NewJobCard> {
                     ],
                   ),
                   child: Icon(
-                      isBookmarked
+                      widget.isBookmarked 
                           ? Icons.bookmark
                           : Icons.bookmark_border_outlined,
                       color: Colors.black,
                       size: 30,
-                      semanticLabel: isBookmarked
+                      semanticLabel: widget.isBookmarked
                           ? 'click to remove saved job'
                           : 'click to save job'),
                 ),
