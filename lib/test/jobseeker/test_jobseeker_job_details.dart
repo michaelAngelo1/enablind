@@ -77,12 +77,6 @@ class JobDetailsJobseekerState extends State<JobDetailsJobseeker> {
                   // Add more job details here
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => CvTemplate(jobListing: widget.jobListing),
-                        ),
-                      );
                     }, 
                     child: const Text("Apply Now")
                   ),

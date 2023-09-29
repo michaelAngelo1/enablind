@@ -184,7 +184,6 @@ class CorpCreateJobState extends State<CorpCreateJob> {
                         decoration: BoxDecoration(
                             color: Color.fromARGB(255, 74, 74, 75),
                             borderRadius: BorderRadius.circular(12)),
-                        child: Expanded(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -205,7 +204,6 @@ class CorpCreateJobState extends State<CorpCreateJob> {
                           ),
                         ),
                       ),
-                    ),
                   ],
                 ),
                 const SizedBox(height: 36),

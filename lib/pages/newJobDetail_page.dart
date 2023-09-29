@@ -52,24 +52,6 @@ class _NewJobDetailPageState extends State<NewJobDetailPage>
   Widget build(BuildContext context) {
     return BackgroundTemplate(
       title: 'Job Details',
-      actions: [
-        IconButton(
-          onPressed: () {
-            setState(() {
-              saved = !saved;
-            });
-          },
-          icon: saved
-              ? const Icon(
-                  Icons.bookmark,
-                  semanticLabel: 'click to remove saved job',
-                )
-              : const Icon(
-                  Icons.bookmark_outline,
-                  semanticLabel: 'click to save job',
-                ),
-        ),
-      ],
       child: Stack(
         children: [
           SingleChildScrollView(

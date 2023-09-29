@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:login_app/components/jobs/jobCardComponent.dart';
@@ -37,8 +38,10 @@ class _ArchivedJobsTabState extends State<ArchivedJobsTab> {
   @override
   Widget build(BuildContext context) {
     final Timestamp currentTime = Timestamp.now();
+    final User? user = FirebaseAuth.instance.currentUser;
+    final String? uidCorporate = user?.uid;
     return StreamBuilder(
-      stream: FirebaseFirestore.instance.collection('Jobs').snapshots(),
+      stream: FirebaseFirestore.instance.collection('Jobs').where('UidCorporate', isEqualTo: uidCorporate).snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return const Center(

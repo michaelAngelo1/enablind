@@ -28,6 +28,7 @@ class _ApplicationsDetailState extends State<ApplicationsDetail> {
   void _updateStatus(int newStatus) async {
     final String applicationId = widget
         .jobApplicationId; // Assuming you've passed the document ID as a parameter
+        print(applicationId);
     await FirebaseFirestore.instance
         .collection('JobApplications')
         .doc(applicationId)
